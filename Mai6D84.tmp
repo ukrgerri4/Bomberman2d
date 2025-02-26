@@ -1,6 +1,5 @@
-[gd_scene load_steps=13 format=4 uid="uid://dexuxwatrirsp"]
+[gd_scene load_steps=12 format=4 uid="uid://dexuxwatrirsp"]
 
-[ext_resource type="Script" path="res://Main.gd" id="1_8jd5a"]
 [ext_resource type="Script" path="res://Scenes/Game.gd" id="1_m3fas"]
 [ext_resource type="Texture2D" uid="uid://b7r75dkj3dt85" path="res://Assets/Block.png" id="1_wukry"]
 [ext_resource type="Texture2D" uid="uid://io1ehc1efint" path="res://Assets/Brick.png" id="2_s573t"]
@@ -35,7 +34,6 @@ sources/3 = SubResource("TileSetAtlasSource_ibot0")
 sources/4 = SubResource("TileSetAtlasSource_i8efm")
 
 [node name="Main" type="Node2D"]
-script = ExtResource("1_8jd5a")
 
 [node name="Game" type="Node2D" parent="."]
 script = ExtResource("1_m3fas")

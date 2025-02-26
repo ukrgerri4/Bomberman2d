@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://kr8bbqoa01uk"
-path="res://.godot/imported/PlayerBlackDeath.png-faf970f844a4bc948cb34551b70f9392.ctex"
+uid="uid://dneg1bdbjq6lw"
+path="res://.godot/imported/PlayerBlue.png-247eaf1ca4c1797060541006d0e685aa.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/PlayerBlackDeath.png"
-dest_files=["res://.godot/imported/PlayerBlackDeath.png-faf970f844a4bc948cb34551b70f9392.ctex"]
+source_file="res://Assets/PlayerBlue.png"
+dest_files=["res://.godot/imported/PlayerBlue.png-247eaf1ca4c1797060541006d0e685aa.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bfnxppck28k8f"
-path="res://.godot/imported/PlayerBlueDeath.png-390563af76a230430c7e5ff11ccb6402.ctex"
+uid="uid://b0rypdviqoxm4"
+path="res://.godot/imported/PlayerWhiteWalk.png-dfdd9ee7aa68ac3de5a6e8208f2fb7fd.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/PlayerBlueDeath.png"
-dest_files=["res://.godot/imported/PlayerBlueDeath.png-390563af76a230430c7e5ff11ccb6402.ctex"]
+source_file="res://Assets/Source/PlayerWhiteWalk.png"
+dest_files=["res://.godot/imported/PlayerWhiteWalk.png-dfdd9ee7aa68ac3de5a6e8208f2fb7fd.ctex"]
 
 [params]
 
@@ -31,4 +31,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=1
+detect_3d/compress_to=0

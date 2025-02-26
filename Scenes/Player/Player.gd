@@ -1,12 +1,19 @@
+class_name Player
 extends CharacterBody2D
 
 
 const SPEED = 50.0
 
+var color: Constants.PlayerColor = Constants.PlayerColor.WHITE
 var is_dead: bool = false
 var direction: Vector2 = Vector2.ZERO
 
 @onready var animation_tree: AnimationTree = $AnimationTree
+@onready var sprite_2d: Sprite2D = $Sprite2D
+
+func _ready() -> void:
+	var texture = ResourceManager.get_texture(color)
+	sprite_2d.texture = texture
 
 func _process(delta: float) -> void:
 	update_animation()

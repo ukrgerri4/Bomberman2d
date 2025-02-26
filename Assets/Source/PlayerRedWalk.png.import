@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://vexa06536ucl"
-path="res://.godot/imported/PlayerRedDeath.png-4b29bfcf56d229ef3477f358688c3cb3.ctex"
+uid="uid://c8nl7ab7rumhs"
+path="res://.godot/imported/PlayerRedWalk.png-4f76ae4403a756d11828b67137450170.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/PlayerRedDeath.png"
-dest_files=["res://.godot/imported/PlayerRedDeath.png-4b29bfcf56d229ef3477f358688c3cb3.ctex"]
+source_file="res://Assets/Source/PlayerRedWalk.png"
+dest_files=["res://.godot/imported/PlayerRedWalk.png-4f76ae4403a756d11828b67137450170.ctex"]
 
 [params]
 

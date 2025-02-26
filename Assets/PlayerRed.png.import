@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b0rypdviqoxm4"
-path="res://.godot/imported/PlayerWhiteWalk.png-636a9b0eb370168ad2445a47a9ab0442.ctex"
+uid="uid://c3wbb2w68ter8"
+path="res://.godot/imported/PlayerRed.png-498503ebc6ae98ef36b63de44d761bb5.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/PlayerWhiteWalk.png"
-dest_files=["res://.godot/imported/PlayerWhiteWalk.png-636a9b0eb370168ad2445a47a9ab0442.ctex"]
+source_file="res://Assets/PlayerRed.png"
+dest_files=["res://.godot/imported/PlayerRed.png-498503ebc6ae98ef36b63de44d761bb5.ctex"]
 
 [params]
 
@@ -31,4 +31,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=0
+detect_3d/compress_to=1
