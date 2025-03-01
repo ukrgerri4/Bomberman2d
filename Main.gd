@@ -1,7 +1,7 @@
 extends Node2D
 
 
-func _input(event: InputEvent) -> void:
+func _input(_event: InputEvent) -> void:
 	handle_exit_input()
 	#handle_pause_input();
 	handle_window_mode_input()
