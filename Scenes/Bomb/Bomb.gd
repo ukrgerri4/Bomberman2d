@@ -8,7 +8,6 @@ extends Node2D
 @onready var explosion_area: Area2D = $ExplosionArea2D
 @onready var explosion_sprites: Node2D = $ExplosionSprites
 
-
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var animation_tree: AnimationTree = $AnimationTree
 
@@ -52,8 +51,16 @@ func _expoyded() -> void:
 	explosion_area.monitoring = true
 
 func _update_explosion_animation() -> void:
-	var animation = animation_player.get_animation("explosion_2")
-	animation
+	var animation_name = "explosion"
+	#if animation_player.has_animation(animation_name):
+		#animation_player.remove_animation(animation_name)
+	var animation = animation_player.get_animation(animation_name)
+	var parts = get_node("ExplosionSprites").get_children()
+	for part in parts:
+		var track_index = animation.add_track(Animation.TYPE_VALUE)
+		animation.track_set_path(track_index, str(part.get_path()) + ":frame")
+		for i in range(8):
+			animation.track_insert_key(track_index, 0.25 * i, i)
 	
 
 func _on_animation_tree_animation_finished(anim_name: StringName) -> void:
