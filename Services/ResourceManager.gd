@@ -1,6 +1,7 @@
 extends Node
 
 const player_scene = preload("res://Scenes/Player/Player.tscn")
+const bomb_scene = preload("res://Scenes/Bomb/Bomb.tscn")
 
 const player_textures = {
 	"white": preload("res://Assets/PlayerWhite.png"),

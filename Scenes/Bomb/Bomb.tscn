@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://bo1locj15wnws"]
+[gd_scene load_steps=21 format=3 uid="uid://bo1locj15wnws"]
 
 [ext_resource type="Texture2D" uid="uid://bv3e665r4secr" path="res://Assets/Bomb.png" id="1_6g6a3"]
 [ext_resource type="Script" path="res://Scenes/Bomb/Bomb.gd" id="1_epn2f"]
@@ -9,56 +9,21 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_kb0cu"]
 radius = 7.5
 
-[sub_resource type="Animation" id="Animation_dmb4m"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Bomb:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [0]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("ExplosionSprites/ExplosionEnd:frame")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [0]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("ExplosionSprites/ExplosionStart:frame")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [0]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("ExplosionSprites/ExplosionMiddle:frame")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [0]
-}
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ef7i6"]
+radius = 5.0
+height = 38.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_86f8h"]
+radius = 5.0
+height = 38.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_bmlek"]
+radius = 5.0
+height = 38.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_mc6f6"]
+radius = 5.0
+height = 38.0
 
 [sub_resource type="Animation" id="Animation_juej3"]
 resource_name = "explosion"
@@ -79,7 +44,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("ExplosionSprites/ExplosionEnd:frame")
+tracks/1/path = NodePath("ExplosionSprites/RightExplosionEnd:frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -91,7 +56,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("ExplosionSprites/ExplosionMiddle:frame")
+tracks/2/path = NodePath("ExplosionSprites/RightExplosionMiddle:frame")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -100,10 +65,82 @@ tracks/2/keys = {
 "update": 1,
 "values": [0, 1, 2, 3, 4, 5, 6, 7]
 }
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("ExplosionSprites/LeftExplosionMiddle:frame")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("ExplosionSprites/LeftExplosionEnd:frame")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("ExplosionSprites/TopExplosionMiddle:frame")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("ExplosionSprites/TopExplosionEnd:frame")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("ExplosionSprites/BottomExplosionMiddle:frame")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("ExplosionSprites/BottomExplosionEnd:frame")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7]
+}
 
 [sub_resource type="Animation" id="Animation_heom7"]
 resource_name = "idle"
-loop_mode = 2
+loop_mode = 1
 step = 0.25
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -120,7 +157,6 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_p3vpg"]
 _data = {
-"RESET": SubResource("Animation_dmb4m"),
 "explosion": SubResource("Animation_juej3"),
 "idle": SubResource("Animation_heom7")
 }
@@ -156,11 +192,38 @@ states/idle/node = SubResource("AnimationNodeAnimation_ylav8")
 states/idle/position = Vector2(309, 100)
 transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_cw7o5"), "idle", "explosion", SubResource("AnimationNodeStateMachineTransition_huej3")]
 
-[node name="Bomb" type="StaticBody2D"]
+[node name="Bomb" type="CharacterBody2D"]
+z_index = 1
+collision_layer = 2
+collision_mask = 0
 script = ExtResource("1_epn2f")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="BombCollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_kb0cu")
+
+[node name="ExplosionArea2D" type="Area2D" parent="."]
+collision_layer = 16
+collision_mask = 11
+monitoring = false
+monitorable = false
+
+[node name="BottomCollisionShape" type="CollisionShape2D" parent="ExplosionArea2D"]
+position = Vector2(0, 20)
+shape = SubResource("CapsuleShape2D_ef7i6")
+
+[node name="TopCollisionShape" type="CollisionShape2D" parent="ExplosionArea2D"]
+position = Vector2(0, -20)
+shape = SubResource("CapsuleShape2D_86f8h")
+
+[node name="LeftCollisionShape" type="CollisionShape2D" parent="ExplosionArea2D"]
+position = Vector2(-20, 0)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_bmlek")
+
+[node name="RightCollisionShape" type="CollisionShape2D" parent="ExplosionArea2D"]
+position = Vector2(20, 0)
+rotation = -1.5708
+shape = SubResource("CapsuleShape2D_mc6f6")
 
 [node name="Bomb" type="Sprite2D" parent="."]
 texture = ExtResource("1_6g6a3")
@@ -172,16 +235,61 @@ visible = false
 [node name="ExplosionStart" type="Sprite2D" parent="ExplosionSprites"]
 texture = ExtResource("2_mlyme")
 hframes = 8
+frame = 7
 
-[node name="ExplosionMiddle" type="Sprite2D" parent="ExplosionSprites"]
+[node name="RightExplosionMiddle" type="Sprite2D" parent="ExplosionSprites"]
 position = Vector2(16, 0)
 texture = ExtResource("3_wx0gv")
 hframes = 8
+frame = 7
 
-[node name="ExplosionEnd" type="Sprite2D" parent="ExplosionSprites"]
+[node name="RightExplosionEnd" type="Sprite2D" parent="ExplosionSprites"]
 position = Vector2(32, 0)
 texture = ExtResource("4_ghj6t")
 hframes = 8
+frame = 7
+
+[node name="LeftExplosionMiddle" type="Sprite2D" parent="ExplosionSprites"]
+position = Vector2(-16, 0)
+rotation = 3.14159
+texture = ExtResource("3_wx0gv")
+hframes = 8
+frame = 7
+
+[node name="LeftExplosionEnd" type="Sprite2D" parent="ExplosionSprites"]
+position = Vector2(-32, 0)
+rotation = 3.14159
+texture = ExtResource("4_ghj6t")
+hframes = 8
+frame = 7
+
+[node name="TopExplosionMiddle" type="Sprite2D" parent="ExplosionSprites"]
+position = Vector2(0, -16)
+rotation = -1.5708
+texture = ExtResource("3_wx0gv")
+hframes = 8
+frame = 7
+
+[node name="TopExplosionEnd" type="Sprite2D" parent="ExplosionSprites"]
+position = Vector2(0, -32)
+rotation = -1.5708
+texture = ExtResource("4_ghj6t")
+hframes = 8
+frame = 7
+
+[node name="BottomExplosionMiddle" type="Sprite2D" parent="ExplosionSprites"]
+position = Vector2(0, 16)
+rotation = 1.5708
+texture = ExtResource("3_wx0gv")
+hframes = 8
+frame = 7
+
+[node name="BottomExplosionEnd" type="Sprite2D" parent="ExplosionSprites"]
+position = Vector2(0, 32)
+rotation = 1.5708
+texture = ExtResource("4_ghj6t")
+hframes = 8
+frame = 7
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -193,5 +301,6 @@ tree_root = SubResource("AnimationNodeStateMachine_hlv44")
 anim_player = NodePath("../AnimationPlayer")
 parameters/conditions/is_exploded = false
 
+[connection signal="body_entered" from="ExplosionArea2D" to="." method="_on_explosion_area_2d_body_entered"]
 [connection signal="animation_finished" from="AnimationTree" to="." method="_on_animation_tree_animation_finished"]
 [connection signal="animation_started" from="AnimationTree" to="." method="_on_animation_tree_animation_started"]
