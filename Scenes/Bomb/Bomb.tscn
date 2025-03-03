@@ -1,10 +1,7 @@
-[gd_scene load_steps=22 format=3 uid="uid://bo1locj15wnws"]
+[gd_scene load_steps=20 format=3 uid="uid://bo1locj15wnws"]
 
 [ext_resource type="Texture2D" uid="uid://bv3e665r4secr" path="res://Assets/Bomb.png" id="1_6g6a3"]
 [ext_resource type="Script" path="res://Scenes/Bomb/Bomb.gd" id="1_epn2f"]
-[ext_resource type="Texture2D" uid="uid://bsuly6oqa2lq3" path="res://Assets/ExplosionStart.png" id="2_mlyme"]
-[ext_resource type="Texture2D" uid="uid://dgo8ksjnthlcs" path="res://Assets/ExplosionMiddle.png" id="3_wx0gv"]
-[ext_resource type="Texture2D" uid="uid://q8sv54l2ywng" path="res://Assets/ExplosionEnd.png" id="4_ghj6t"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_kb0cu"]
 radius = 7.5
@@ -50,8 +47,13 @@ tracks/0/keys = {
 "values": [0, 1, 2, 3]
 }
 
+[sub_resource type="Animation" id="Animation_5706p"]
+resource_name = "RESET"
+step = 0.25
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_p3vpg"]
 _data = {
+"RESET": SubResource("Animation_5706p"),
 "explosion": SubResource("Animation_juej3"),
 "idle": SubResource("Animation_heom7")
 }
@@ -100,7 +102,7 @@ disabled = true
 [node name="BombSrpite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_6g6a3")
 hframes = 4
-frame = 1
+frame = 3
 
 [node name="BombArea2D" type="Area2D" parent="."]
 visible = false
@@ -112,56 +114,6 @@ shape = SubResource("CircleShape2D_74mvq")
 
 [node name="ExplosionSprites" type="Node2D" parent="."]
 visible = false
-
-[node name="ExplosionStart" type="Sprite2D" parent="ExplosionSprites"]
-texture = ExtResource("2_mlyme")
-hframes = 8
-
-[node name="RightExplosionMiddle" type="Sprite2D" parent="ExplosionSprites"]
-position = Vector2(16, 0)
-texture = ExtResource("3_wx0gv")
-hframes = 8
-
-[node name="RightExplosionEnd" type="Sprite2D" parent="ExplosionSprites"]
-position = Vector2(32, 0)
-texture = ExtResource("4_ghj6t")
-hframes = 8
-
-[node name="LeftExplosionMiddle" type="Sprite2D" parent="ExplosionSprites"]
-position = Vector2(-16, 0)
-rotation = 3.14159
-texture = ExtResource("3_wx0gv")
-hframes = 8
-
-[node name="LeftExplosionEnd" type="Sprite2D" parent="ExplosionSprites"]
-position = Vector2(-32, 0)
-rotation = 3.14159
-texture = ExtResource("4_ghj6t")
-hframes = 8
-
-[node name="TopExplosionMiddle" type="Sprite2D" parent="ExplosionSprites"]
-position = Vector2(0, -16)
-rotation = -1.5708
-texture = ExtResource("3_wx0gv")
-hframes = 8
-
-[node name="TopExplosionEnd" type="Sprite2D" parent="ExplosionSprites"]
-position = Vector2(0, -32)
-rotation = -1.5708
-texture = ExtResource("4_ghj6t")
-hframes = 8
-
-[node name="BottomExplosionMiddle" type="Sprite2D" parent="ExplosionSprites"]
-position = Vector2(0, 16)
-rotation = 1.5708
-texture = ExtResource("3_wx0gv")
-hframes = 8
-
-[node name="BottomExplosionEnd" type="Sprite2D" parent="ExplosionSprites"]
-position = Vector2(0, 32)
-rotation = 1.5708
-texture = ExtResource("4_ghj6t")
-hframes = 8
 
 [node name="ExplosionArea2D" type="Area2D" parent="."]
 visible = false
