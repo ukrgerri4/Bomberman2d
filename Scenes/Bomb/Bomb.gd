@@ -1,22 +1,24 @@
 class_name Bomb
-extends CharacterBody2D
+extends Node2D
+
+@onready var bomb_sprite: Sprite2D = $BombSrpite2D
+@onready var bomb_area: Area2D = $BombArea2D
+@onready var bomb_static_body: StaticBody2D = $BombStaticBody2D
+
+@onready var explosion_area: Area2D = $ExplosionArea2D
+@onready var explosion_sprites: Node2D = $ExplosionSprites
 
 @onready var animation_tree: AnimationTree = $AnimationTree
-@onready var bomb_sprite: Sprite2D = $Bomb
-@onready var explosion_sprites: Node2D = $ExplosionSprites
-@onready var explosion_area: Area2D = $ExplosionArea2D
 
 var _is_expoyded: bool = false
 var _explosion_timer: SceneTreeTimer = null
-var _explosion_delay: float = 10.0
+var _explosion_delay: float = 3.0
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	GameEvents.bomb_hit.connect(_on_bomb_hit)
 	_explosion_timer = get_tree().create_timer(_explosion_delay)
 	_explosion_timer.timeout.connect(_on_timeout)
-	
-	print("Bomb:", name, "Animation:", animation_tree)
 
 func _exit_tree():
 	if GameEvents.bomb_hit.is_connected(_on_bomb_hit):

@@ -13,9 +13,7 @@ const player_textures = {
 func get_texture(playerColor: Constants.PlayerColor) -> Texture2D:
 	match playerColor:
 		Constants.PlayerColor.WHITE:
-			var x = load("res://Assets/PlayerWhite.png")
-			return x
-			#return player_textures["white"]
+			return player_textures["white"]
 		Constants.PlayerColor.BLACK:
 			return player_textures["black"]
 		Constants.PlayerColor.BLUE:

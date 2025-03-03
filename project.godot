@@ -20,11 +20,14 @@ config/icon="res://icon.svg"
 ResourceManager="*res://Services/ResourceManager.gd"
 DeviceManager="*res://Services/DeviceManager.gd"
 GameEvents="*res://Services/GameEvents.gd"
+MapSettings="*res://Services/MapSettings.gd"
 
 [display]
 
-window/size/viewport_width=368
-window/size/viewport_height=208
+window/size/viewport_width=1920
+window/size/viewport_height=1080
+window/size/window_width_override=960
+window/size/window_height_override=540
 window/stretch/mode="canvas_items"
 
 [dotnet]
@@ -78,7 +81,7 @@ place_bomb={
 2d_physics/layer_1="Player"
 2d_physics/layer_2="Bomb"
 2d_physics/layer_3="Wall"
-2d_physics/layer_4="Bricks"
+2d_physics/layer_4="Brick"
 2d_physics/layer_5="Explosion"
 
 [rendering]

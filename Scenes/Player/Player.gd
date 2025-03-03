@@ -5,7 +5,7 @@ extends CharacterBody2D
 var _color: Constants.PlayerColor = Constants.PlayerColor.WHITE
 var _deviceId: int = -1
 
-var _speed = 50.0
+var _speed = 200.0
 var _is_dead: bool = false
 var _direction: Vector2 = Vector2.ZERO
 var _place_bomb_delay: float = 0.0
@@ -50,8 +50,8 @@ func _handle_bomb_placement(delta: float) -> void:
 
 func _place_bomb() -> void: # TODO: move to some service
 	var p = Vector2(
-		ceil(global_position.x / 16.0) * 16 - 8,
-		ceil(global_position.y / 16.0) * 16 - 8
+		ceil((global_position.x - MapSettings.OFFSET_LEFT) / MapSettings.BLOCK_SIZE) * MapSettings.BLOCK_SIZE - MapSettings.BLOCK_SIZE/2 + MapSettings.OFFSET_LEFT,
+		ceil((global_position.y - MapSettings.OFFSET_TOP) / MapSettings.BLOCK_SIZE) * MapSettings.BLOCK_SIZE - MapSettings.BLOCK_SIZE/2 + MapSettings.OFFSET_TOP,
 	)
 	#print_debug("Should palce bomb, position: {0}, {1}".format([global_position, p]))
 	var bomb = ResourceManager.bomb_scene.instantiate()
@@ -61,7 +61,7 @@ func _place_bomb() -> void: # TODO: move to some service
 	_place_bomb_delay = 0.0
 
 
-func _handle_movement(delta: float) -> void:
+func _handle_movement(_delta: float) -> void:
 	var new_direction = get_current_direction()
 	var x: float = new_direction.x
 	var y: float = new_direction.y
