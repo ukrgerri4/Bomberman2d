@@ -1,6 +1,8 @@
 class_name Bomb
 extends Node2D
 
+const EXPLOSIO_ANIMATION_NAME: String = "explosion"
+
 @onready var bomb_sprite: Sprite2D = $BombSrpite2D
 @onready var bomb_area: Area2D = $BombArea2D
 @onready var bomb_collision_shape: CollisionShape2D = $BombCollisionShape2D
@@ -44,17 +46,18 @@ func _expoyded() -> void:
 		_explosion_timer.timeout.disconnect(_on_timeout)
 		#print_debug("Timer disconnected")
 	
+	_update_explosion_sprites()
 	_update_explosion_animation()
 	animation_tree["parameters/conditions/is_exploded"] = true
 	bomb_sprite.visible = false
 	explosion_sprites.visible = true
 	explosion_area.monitoring = true
 
+func _update_explosion_sprites() -> void:
+	pass
+
 func _update_explosion_animation() -> void:
-	var animation_name = "explosion"
-	#if animation_player.has_animation(animation_name):
-		#animation_player.remove_animation(animation_name)
-	var animation = animation_player.get_animation(animation_name)
+	var animation = animation_player.get_animation(EXPLOSIO_ANIMATION_NAME)
 	var parts = get_node("ExplosionSprites").get_children()
 	for part in parts:
 		var track_index = animation.add_track(Animation.TYPE_VALUE)
