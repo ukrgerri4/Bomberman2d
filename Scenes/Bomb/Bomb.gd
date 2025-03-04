@@ -75,6 +75,14 @@ func _update_explosion_beam(direction: Vector2) -> void:
 			top_beam.rotation_degrees = _get_beam_rotation(direction)
 			top_beam.global_position = beam_position
 
+func check_wall_collision(pos) -> Node2D:
+	var space_state = get_world_2d().direct_space_state
+	var result = space_state.intersect_point(pos)
+	for r in result:
+		if r.collider.is_in_group("walls"):  # Your wall group
+			return true
+	return false
+
 func _update_explosion_area() -> void:
 	pass
 	
