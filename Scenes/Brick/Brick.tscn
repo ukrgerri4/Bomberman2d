@@ -1,18 +1,92 @@
-[gd_scene load_steps=3 format=3 uid="uid://c3w7ttydapjho"]
+[gd_scene load_steps=14 format=3 uid="uid://c3w7ttydapjho"]
 
+[ext_resource type="Script" uid="uid://beif1585t5f2g" path="res://Scenes/Brick/Brick.gd" id="1_tjjil"]
 [ext_resource type="Texture2D" uid="uid://io1ehc1efint" path="res://Assets/Brick.png" id="1_yw4tw"]
+[ext_resource type="Texture2D" uid="uid://m5rttwm3r4ys" path="res://Assets/BrickDestroy.png" id="3_o450c"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_af7kr"]
 size = Vector2(16, 16)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_5q71n"]
+atlas = ExtResource("1_yw4tw")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4c1ur"]
+atlas = ExtResource("3_o450c")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lrdbq"]
+atlas = ExtResource("3_o450c")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6cswe"]
+atlas = ExtResource("3_o450c")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m5yb6"]
+atlas = ExtResource("3_o450c")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cxgx1"]
+atlas = ExtResource("3_o450c")
+region = Rect2(64, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5ciwy"]
+atlas = ExtResource("3_o450c")
+region = Rect2(80, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hyq4c"]
+atlas = ExtResource("3_o450c")
+region = Rect2(96, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7rdfb"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5q71n")
+}],
+"loop": false,
+"name": &"default",
+"speed": 1.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4c1ur")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lrdbq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6cswe")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m5yb6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cxgx1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5ciwy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hyq4c")
+}],
+"loop": false,
+"name": &"destruction",
+"speed": 6.0
+}]
+
 [node name="Brick" type="CharacterBody2D" groups=["bricks"]]
 scale = Vector2(4, 4)
 collision_layer = 8
-metadata/_edit_lock_ = true
+script = ExtResource("1_tjjil")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_af7kr")
 
-[node name="Brick" type="Sprite2D" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 z_index = 2
-texture = ExtResource("1_yw4tw")
+sprite_frames = SubResource("SpriteFrames_7rdfb")
+animation = &"destruction"
+
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

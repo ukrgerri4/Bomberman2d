@@ -128,7 +128,7 @@ func _update_animation() -> void:
 	animation_tree["parameters/walk/blend_position"] = _direction
 
 
-func _on_player_hit(player) -> void:
+func _on_player_hit(player: Player) -> void:
 	if player == self:
 		_is_dead = true
 		set_physics_process(false) # stop player moving

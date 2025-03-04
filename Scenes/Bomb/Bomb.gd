@@ -33,8 +33,8 @@ func _exit_tree():
 func _on_timeout() -> void:
 	_expoyded.call_deferred()
 
-func _on_bomb_hit(bomb: Bomb) -> void:
-	if bomb == self:
+func _on_bomb_hit(node: Node2D) -> void:
+	if node is Bomb and node == self:
 		_expoyded.call_deferred()
 
 func _expoyded() -> void:
@@ -67,6 +67,7 @@ func _update_explosion_beam(direction: Vector2) -> void:
 		var is_collide = true
 		var is_collide_with_brick = false
 		var collider = _check_collision(beam_position)
+		_check_collision2(beam_position)
 		
 		if collider == null:
 			is_collide = false
@@ -83,12 +84,11 @@ func _update_explosion_beam(direction: Vector2) -> void:
 			explosion_sprites.add_child(top_beam)
 			top_beam.rotation_degrees = _get_beam_rotation(direction)
 			top_beam.global_position = beam_position
-		
+			
 		if is_collide or is_collide_with_brick:
 			return
 
 func _check_collision(point: Vector2) -> Node2D:
-	print(point)
 	var space_state = get_world_2d().direct_space_state
 	var query =  PhysicsPointQueryParameters2D.new()
 	query.position = point
@@ -99,6 +99,13 @@ func _check_collision(point: Vector2) -> Node2D:
 	if result.size() == 1:
 		return result[0].collider;
 	return null
+
+func _check_collision2(point: Vector2) -> Constants.MapCellType:
+	var x = ceil((point.x - MapSettings.OFFSET_LEFT) / MapSettings.BLOCK_SIZE) - 1
+	var y = ceil((point.y - MapSettings.OFFSET_TOP) / MapSettings.BLOCK_SIZE) - 1
+	var max = Array(MapSettings.cells[x][y]).max()
+	#print("{0}, {1}, {2}, {3}".format([x, y, max, point]))
+	return max
 
 func _update_explosion_area() -> void:
 	pass
@@ -154,11 +161,7 @@ func _update_explosion_animation() -> void:
 
 func _on_explosion_area_2d_body_entered(body: Node2D) -> void:
 	#print_debug("Explosion area body entered: ", body)
-	if body is Player:
-		GameEvents.player_hit.emit(body)
-	elif body is Bomb:
-		GameEvents.bomb_hit.emit(body)
-	#elif body is Wall:
+	GameEvents.bomb_hit.emit(body)
 
 func _on_bomb_area_2d_body_exited(_body: Node2D) -> void:
 	#print_debug("Explosion area body entered: ", body)
