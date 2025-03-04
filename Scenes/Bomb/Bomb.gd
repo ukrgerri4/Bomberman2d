@@ -64,8 +64,17 @@ func _update_explosion_beam(direction: Vector2) -> void:
 	for i in range(_explosion_length):
 		var beam_number = i + 1
 		var beam_position = _get_beam_position(direction, beam_number)
-		var is_intersect = false # TODO: implement intersection check
-		if not is_intersect:
+		var is_collide = true
+		var is_collide_with_brick = false
+		var collider = _check_collision(beam_position)
+		
+		if collider == null:
+			is_collide = false
+		elif collider.is_in_group("bricks"):
+			is_collide = false
+			is_collide_with_brick = true
+		
+		if not is_collide:
 			var top_beam: Sprite2D
 			if beam_number == _explosion_length:
 				top_beam = ResourceManager.explosion_end.instantiate()
@@ -74,14 +83,22 @@ func _update_explosion_beam(direction: Vector2) -> void:
 			explosion_sprites.add_child(top_beam)
 			top_beam.rotation_degrees = _get_beam_rotation(direction)
 			top_beam.global_position = beam_position
+		
+		if is_collide or is_collide_with_brick:
+			return
 
-func check_wall_collision(pos) -> Node2D:
+func _check_collision(point: Vector2) -> Node2D:
+	print(point)
 	var space_state = get_world_2d().direct_space_state
-	var result = space_state.intersect_point(pos)
-	for r in result:
-		if r.collider.is_in_group("walls"):  # Your wall group
-			return true
-	return false
+	var query =  PhysicsPointQueryParameters2D.new()
+	query.position = point
+	query.collide_with_areas = false
+	query.collide_with_bodies = true
+	query.collision_mask = (1 << 2) | (1 << 3) # wall and brick
+	var result = space_state.intersect_point(query, 1)
+	if result.size() == 1:
+		return result[0].collider;
+	return null
 
 func _update_explosion_area() -> void:
 	pass

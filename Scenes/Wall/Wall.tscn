@@ -5,9 +5,10 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_voulp"]
 size = Vector2(16, 16)
 
-[node name="StaticBody2D" type="StaticBody2D"]
+[node name="Wall" type="CharacterBody2D" groups=["walls"]]
 scale = Vector2(4, 4)
 collision_layer = 4
+metadata/_edit_lock_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_voulp")
