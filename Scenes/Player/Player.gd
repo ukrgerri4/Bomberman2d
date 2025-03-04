@@ -50,8 +50,8 @@ func _handle_bomb_placement(delta: float) -> void:
 
 func _place_bomb() -> void: # TODO: move to some service
 	var p = Vector2(
-		ceil((global_position.x - MapSettings.OFFSET_LEFT) / MapSettings.BLOCK_SIZE) * MapSettings.BLOCK_SIZE - MapSettings.BLOCK_SIZE/2 + MapSettings.OFFSET_LEFT,
-		ceil((global_position.y - MapSettings.OFFSET_TOP) / MapSettings.BLOCK_SIZE) * MapSettings.BLOCK_SIZE - MapSettings.BLOCK_SIZE/2 + MapSettings.OFFSET_TOP,
+		ceil((global_position.x - MapSettings.OFFSET_LEFT) / MapSettings.BLOCK_SIZE) * MapSettings.BLOCK_SIZE - MapSettings.HALF_BLOCK_SIZE + MapSettings.OFFSET_LEFT,
+		ceil((global_position.y - MapSettings.OFFSET_TOP) / MapSettings.BLOCK_SIZE) * MapSettings.BLOCK_SIZE - MapSettings.HALF_BLOCK_SIZE + MapSettings.OFFSET_TOP,
 	)
 	#print_debug("Should palce bomb, position: {0}, {1}".format([global_position, p]))
 	var bomb = ResourceManager.bomb_scene.instantiate()

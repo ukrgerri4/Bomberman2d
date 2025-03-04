@@ -13,6 +13,7 @@ const EXPLOSION_ANIMATION_NAME: String = "explosion"
 @onready var animation_player: AnimationPlayer
 
 var _is_exployded: bool = false
+var _explosion: Array[Vector2] = [Vector2.ZERO]
 var _explosion_timer: SceneTreeTimer = null
 var _explosion_delay: float = 3.0
 var _explosion_length: int = 2
@@ -46,12 +47,8 @@ func _expoyded() -> void:
 		_explosion_timer.timeout.disconnect(_on_timeout)
 	
 	_update_explosion_sprites()
+	_update_explosion_area()
 	_update_explosion_animation()
-	bomb_animated_sprite.visible = false
-	bomb_animated_sprite.stop()
-	explosion_sprites.visible = true
-	explosion_area.monitoring = true
-	animation_player.play(EXPLOSION_ANIMATION_NAME)
 
 func _update_explosion_sprites() -> void:
 	var start = ResourceManager.explosion_start.instantiate()
@@ -78,16 +75,20 @@ func _update_explosion_beam(direction: Vector2) -> void:
 			top_beam.rotation_degrees = _get_beam_rotation(direction)
 			top_beam.global_position = beam_position
 
+func _update_explosion_area() -> void:
+	pass
+	
+
 func _get_beam_position(direction: Vector2, beam_number: int) -> Vector2:
 	match direction:
 		Vector2.UP:
-			return Vector2(global_position.x, global_position.y - Constants.BLOCK_SIZE * beam_number)
+			return Vector2(global_position.x, global_position.y - MapSettings.BLOCK_SIZE * beam_number)
 		Vector2.DOWN:
-			return Vector2(global_position.x, global_position.y + Constants.BLOCK_SIZE * beam_number)
+			return Vector2(global_position.x, global_position.y + MapSettings.BLOCK_SIZE * beam_number)
 		Vector2.LEFT:
-			return Vector2(global_position.x - Constants.BLOCK_SIZE * beam_number, global_position.y)
+			return Vector2(global_position.x - MapSettings.BLOCK_SIZE * beam_number, global_position.y)
 		Vector2.RIGHT:
-			return Vector2(global_position.x + Constants.BLOCK_SIZE * beam_number, global_position.y)
+			return Vector2(global_position.x + MapSettings.BLOCK_SIZE * beam_number, global_position.y)
 		_:
 			return Vector2.ZERO
 
@@ -120,6 +121,11 @@ func _update_explosion_animation() -> void:
 		for i in range(8):
 			animation.track_insert_key(track_index, 0.25 * i, i)
 	animation_library.add_animation(EXPLOSION_ANIMATION_NAME, animation)
+	bomb_animated_sprite.visible = false
+	bomb_animated_sprite.stop()
+	explosion_sprites.visible = true
+	explosion_area.monitoring = true
+	animation_player.play(EXPLOSION_ANIMATION_NAME)
 
 func _on_explosion_area_2d_body_entered(body: Node2D) -> void:
 	#print_debug("Explosion area body entered: ", body)
@@ -129,7 +135,7 @@ func _on_explosion_area_2d_body_entered(body: Node2D) -> void:
 		GameEvents.bomb_hit.emit(body)
 	#elif body is Wall:
 
-func _on_bomb_area_2d_body_exited(body: Node2D) -> void:
+func _on_bomb_area_2d_body_exited(_body: Node2D) -> void:
 	#print_debug("Explosion area body entered: ", body)
 	_enable_bomb_collision.call_deferred() 
 

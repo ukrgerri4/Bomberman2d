@@ -38,12 +38,12 @@ func _is_wall(width: int, height: int) -> bool:
 func _is_ground(width: int, height: int) -> bool:
 	return width % 2 == 1 and height != 1
 
-func _is_ground_shadow(width: int, height: int) -> bool:
+func _is_ground_shadow(_width: int, height: int) -> bool:
 	return height % 2 == 1 
 
 func _add_to_map(node: Node2D, width: float, height: float) -> void:
 	self.add_child(node)
 	node.global_position = Vector2(
-		MapSettings.OFFSET_LEFT + width * MapSettings.BLOCK_SIZE + MapSettings.BLOCK_SIZE / 2,
-		MapSettings.OFFSET_TOP + height * MapSettings.BLOCK_SIZE + MapSettings.BLOCK_SIZE / 2
+		MapSettings.OFFSET_LEFT + width * MapSettings.BLOCK_SIZE + MapSettings.HALF_BLOCK_SIZE,
+		MapSettings.OFFSET_TOP + height * MapSettings.BLOCK_SIZE + MapSettings.HALF_BLOCK_SIZE
 	)

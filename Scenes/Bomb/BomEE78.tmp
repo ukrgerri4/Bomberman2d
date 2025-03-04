@@ -75,7 +75,7 @@ disabled = true
 sprite_frames = SubResource("SpriteFrames_ykpal")
 animation = &"idle"
 autoplay = "idle"
-frame_progress = 0.195407
+frame_progress = 0.136473
 
 [node name="BombArea2D" type="Area2D" parent="."]
 visible = false
