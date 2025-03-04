@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://bo1locj15wnws"]
+[gd_scene load_steps=18 format=3 uid="uid://bo1locj15wnws"]
 
 [ext_resource type="Texture2D" uid="uid://bv3e665r4secr" path="res://Assets/Bomb.png" id="1_6g6a3"]
 [ext_resource type="Script" path="res://Scenes/Bomb/Bomb.gd" id="1_epn2f"]
@@ -25,6 +25,10 @@ height = 38.0
 radius = 5.0
 height = 38.0
 
+[sub_resource type="Animation" id="Animation_5706p"]
+resource_name = "RESET"
+step = 0.25
+
 [sub_resource type="Animation" id="Animation_juej3"]
 resource_name = "explosion"
 length = 2.0
@@ -47,10 +51,6 @@ tracks/0/keys = {
 "values": [0, 1, 2, 3]
 }
 
-[sub_resource type="Animation" id="Animation_5706p"]
-resource_name = "RESET"
-step = 0.25
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_p3vpg"]
 _data = {
 "RESET": SubResource("Animation_5706p"),
@@ -58,18 +58,8 @@ _data = {
 "idle": SubResource("Animation_heom7")
 }
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_vf1px"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_xdrp4"]
 animation = &"explosion"
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_eg4d4"]
-advance_mode = 2
-
-[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_d22jc"]
-states/End/position = Vector2(529, 100)
-states/Start/position = Vector2(168, 100)
-states/explosion/node = SubResource("AnimationNodeAnimation_vf1px")
-states/explosion/position = Vector2(341, 100)
-transitions = ["Start", "explosion", SubResource("AnimationNodeStateMachineTransition_eg4d4")]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ylav8"]
 animation = &"idle"
@@ -77,17 +67,18 @@ animation = &"idle"
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_cw7o5"]
 advance_mode = 2
 
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_huej3"]
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_j0kv0"]
 advance_mode = 2
-advance_condition = &"is_exploded"
+advance_condition = &"is_exployded"
 
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_hlv44"]
+states/End/position = Vector2(741, 100)
 states/Start/position = Vector2(167, 100)
-states/explosion/node = SubResource("AnimationNodeStateMachine_d22jc")
-states/explosion/position = Vector2(475, 100)
+states/explosion/node = SubResource("AnimationNodeAnimation_xdrp4")
+states/explosion/position = Vector2(544, 99)
 states/idle/node = SubResource("AnimationNodeAnimation_ylav8")
-states/idle/position = Vector2(309, 100)
-transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_cw7o5"), "idle", "explosion", SubResource("AnimationNodeStateMachineTransition_huej3")]
+states/idle/position = Vector2(342, 101)
+transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_cw7o5"), "idle", "explosion", SubResource("AnimationNodeStateMachineTransition_j0kv0")]
 
 [node name="Bomb" type="CharacterBody2D"]
 z_index = 2
@@ -102,7 +93,6 @@ disabled = true
 [node name="BombSrpite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_6g6a3")
 hframes = 4
-frame = 3
 
 [node name="BombArea2D" type="Area2D" parent="."]
 visible = false
@@ -148,7 +138,7 @@ libraries = {
 [node name="AnimationTree" type="AnimationTree" parent="."]
 tree_root = SubResource("AnimationNodeStateMachine_hlv44")
 anim_player = NodePath("../AnimationPlayer")
-parameters/conditions/is_exploded = false
+parameters/conditions/is_exployded = false
 
 [connection signal="body_exited" from="BombArea2D" to="." method="_on_bomb_area_2d_body_exited"]
 [connection signal="body_entered" from="ExplosionArea2D" to="." method="_on_explosion_area_2d_body_entered"]

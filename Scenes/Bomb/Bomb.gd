@@ -1,7 +1,7 @@
 class_name Bomb
 extends Node2D
 
-const EXPLOSIO_ANIMATION_NAME: String = "explosion"
+const EXPLOSION_ANIMATION_NAME: String = "explosion"
 
 @onready var bomb_sprite: Sprite2D = $BombSrpite2D
 @onready var bomb_area: Area2D = $BombArea2D
@@ -13,7 +13,7 @@ const EXPLOSIO_ANIMATION_NAME: String = "explosion"
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var animation_tree: AnimationTree = $AnimationTree
 
-var _is_expoyded: bool = false
+var _is_exployded: bool = false
 var _explosion_timer: SceneTreeTimer = null
 var _explosion_delay: float = 3.0
 var _explosion_length: int = 2
@@ -38,18 +38,17 @@ func _on_bomb_hit(bomb: Bomb) -> void:
 		_expoyded.call_deferred()
 
 func _expoyded() -> void:
-	if _is_expoyded:
+	if _is_exployded:
 		return
 	
-	_is_expoyded = true
+	_is_exployded = true
 	
 	if _explosion_timer and _explosion_timer.timeout.is_connected(_on_timeout):
 		_explosion_timer.timeout.disconnect(_on_timeout)
-		#print_debug("Timer disconnected")
 	
 	_update_explosion_sprites()
 	_update_explosion_animation()
-	animation_tree["parameters/conditions/is_exploded"] = true
+	animation_tree["parameters/conditions/is_exployded"] = true
 	bomb_sprite.visible = false
 	explosion_sprites.visible = true
 	explosion_area.monitoring = true
@@ -107,19 +106,22 @@ func _get_beam_rotation(direction: Vector2) -> int:
 
 func _update_explosion_animation() -> void:
 	var animation_library = animation_player.get_animation_library("")
-	if animation_library.has_animation(EXPLOSIO_ANIMATION_NAME):
-		animation_library.remove_animation(EXPLOSIO_ANIMATION_NAME)
 	
+	if animation_library.has_animation(EXPLOSION_ANIMATION_NAME):
+		animation_library.remove_animation(EXPLOSION_ANIMATION_NAME)
+		
 	var animation = Animation.new()
-	#var animation = animation_player.get_animation(EXPLOSIO_ANIMATION_NAME)
+	
+	#var animation = animation_library.get_animation(EXPLOSION_ANIMATION_NAME)
 	
 	var parts = explosion_sprites.get_children()
 	for part in parts:
 		var track_index = animation.add_track(Animation.TYPE_VALUE)
+		#print("Path: ", part.get_path())
 		animation.track_set_path(track_index, str(part.get_path()) + ":frame")
 		for i in range(8):
 			animation.track_insert_key(track_index, 0.25 * i, i)
-	animation_library.add_animation(EXPLOSIO_ANIMATION_NAME, animation)
+	animation_library.add_animation(EXPLOSION_ANIMATION_NAME, animation)
 
 func _on_animation_tree_animation_finished(anim_name: StringName) -> void:
 	#print_debug("Bomb animation ended: ", anim_name)
