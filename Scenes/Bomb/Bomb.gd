@@ -24,7 +24,7 @@ var _explosion_dict: Dictionary[Vector2, Array] = {
 var _explosion_timer: SceneTreeTimer = null
 
 var explosion_delay: float = 3.0
-var explosion_length: int = 1
+var explosion_blast_length: int = 1
 
 func _ready() -> void:
 	bomb_collision_shape.disabled = true
@@ -71,7 +71,7 @@ func _update_explosion_sprites() -> void:
 
 func _update_explosion_beam(direction: Vector2) -> void:
 	_explosion_dict[direction].append(global_position)
-	for i in range(explosion_length):
+	for i in range(explosion_blast_length):
 		var beam_number = i + 1
 		var beam_position = _get_beam_position(direction, beam_number)
 		var is_collide = true
@@ -86,7 +86,7 @@ func _update_explosion_beam(direction: Vector2) -> void:
 		
 		if not is_collide:
 			var top_beam: Sprite2D
-			if beam_number == explosion_length:
+			if beam_number == explosion_blast_length:
 				top_beam = ResourceManager.explosion_end.instantiate()
 			else:
 				top_beam = ResourceManager.explosion_middle.instantiate()
@@ -148,7 +148,7 @@ func _update_area(values: Array, direction: Vector2) -> void:
 		var collision_shape = CollisionShape2D.new()
 		var capsule_shape = CapsuleShape2D.new()
 		collision_shape.shape = capsule_shape
-		capsule_shape.radius = 20
+		capsule_shape.radius = 21
 		capsule_shape.height = (abs(values.max()) - abs(values.min())) + MapSettings.HALF_BLOCK_SIZE - 2
 		
 		match direction:
@@ -199,7 +199,7 @@ func _update_explosion_animation() -> void:
 	animation_player.animation_finished.connect(_on_animation_player_animation_finished)
 	var animation_library = AnimationLibrary.new()
 	animation_player.add_animation_library("", animation_library)
-	var animation = Animation.new()	
+	var animation = Animation.new()
 	var parts = explosion_sprites.get_children()
 	for part in parts:
 		var track_index = animation.add_track(Animation.TYPE_VALUE)
@@ -215,7 +215,7 @@ func _update_explosion_animation() -> void:
 	animation_player.play(EXPLOSION_ANIMATION_NAME)
 
 func _on_explosion_area_2d_body_entered(body: Node2D) -> void:
-	print_debug("Explosion area body entered: ", body)
+	#print_debug("Explosion area body entered: ", body)
 	GameEvents.bomb_hit.emit(body)
 
 func _on_bomb_area_2d_body_exited(_body: Node2D) -> void:

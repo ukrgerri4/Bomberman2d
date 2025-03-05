@@ -77,6 +77,7 @@ animations = [{
 }]
 
 [node name="Brick" type="CharacterBody2D" groups=["bricks"]]
+z_index = 2
 collision_layer = 8
 script = ExtResource("1_tjjil")
 
@@ -84,7 +85,6 @@ script = ExtResource("1_tjjil")
 shape = SubResource("RectangleShape2D_af7kr")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-z_index = 2
 sprite_frames = SubResource("SpriteFrames_7rdfb")
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

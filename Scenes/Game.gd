@@ -42,10 +42,10 @@ func _ready() -> void:
 		var player = players[i]
 		if player.is_active:
 			print_debug("PlayerId {0} is active.".format([player.id]))
-		add_player(player.color, player.device_id, player.spawn_position)
+		_add_player(player.color, player.device_id, player.spawn_position)
 		player.is_active = true
 
-func add_player(color: Constants.PlayerColor, deviceId: int, spawn_position: Vector2) -> void:
+func _add_player(color: Constants.PlayerColor, deviceId: int, spawn_position: Vector2) -> void:
 	var player: Player = ResourceManager.player_scene.instantiate()
 	player.initialize(color, deviceId)
 	player_container.add_child(player)

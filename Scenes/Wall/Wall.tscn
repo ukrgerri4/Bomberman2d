@@ -6,6 +6,7 @@
 size = Vector2(64, 64)
 
 [node name="Wall" type="CharacterBody2D" groups=["walls"]]
+z_index = 2
 collision_layer = 4
 metadata/_edit_lock_ = true
 
@@ -13,5 +14,4 @@ metadata/_edit_lock_ = true
 shape = SubResource("RectangleShape2D_voulp")
 
 [node name="Wall" type="Sprite2D" parent="."]
-z_index = 2
 texture = ExtResource("1_fwe4y")

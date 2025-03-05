@@ -17,24 +17,38 @@ func _generate_level() -> void:
 			MapSettings.cells[w].append([])
 			if _is_wall(w, h):
 				var wall = wall_scene.instantiate()
-				_add_tocells(wall, w, h)
+				_add_to_cells(wall, w, h)
 				MapSettings.cells[w][h].append(Constants.MapCellType.WALL)
 			else:
 				if _is_ground(w, h):
 					var ground = ground_scene.instantiate()
-					_add_tocells(ground, w, h)
+					_add_to_cells(ground, w, h)
 					MapSettings.cells[w][h].append(Constants.MapCellType.GROUND)
 				elif _is_ground_shadow(w, h):
 					var ground_shadow = ground_shadow_scene.instantiate()
-					_add_tocells(ground_shadow, w, h)
+					_add_to_cells(ground_shadow, w, h)
 					MapSettings.cells[w][h].append(Constants.MapCellType.GROUND)
 					
 				if w > 4 and w < (MapSettings.MAP_WIDTH - 4) and h > 4 and h < (MapSettings.MAP_HEIGHT - 4):
 					var brick = brick_scene.instantiate()
-					_add_tocells(brick, w, h)
+					_add_to_cells(brick, w, h)
 					MapSettings.cells[w][h].append(Constants.MapCellType.BRICK)
 					
-				# place powerups
+				if w == 5 and h == 5:
+					var power_up = power_up_scene.instantiate()
+					power_up.type = Constants.PowerUpType.SPEED_INCREASE
+					_add_to_cells(power_up, w, h)
+					MapSettings.cells[w][h].append(Constants.MapCellType.POWER_UP)
+				if w == 7 and h == 5:
+					var power_up = power_up_scene.instantiate()
+					power_up.type = Constants.PowerUpType.EXTRA_BOMB
+					_add_to_cells(power_up, w, h)
+					MapSettings.cells[w][h].append(Constants.MapCellType.POWER_UP)
+				if w == 9 and h == 5:
+					var power_up = power_up_scene.instantiate()
+					power_up.type = Constants.PowerUpType.BLAST_INCREASE
+					_add_to_cells(power_up, w, h)
+					MapSettings.cells[w][h].append(Constants.MapCellType.POWER_UP)
 	#print(MapSettings.cells)
 
 func _is_wall(width: int, height: int) -> bool:
@@ -48,7 +62,7 @@ func _is_ground(width: int, height: int) -> bool:
 func _is_ground_shadow(_width: int, height: int) -> bool:
 	return height % 2 == 1 
 
-func _add_tocells(node: Node2D, width: float, height: float) -> void:
+func _add_to_cells(node: Node2D, width: float, height: float) -> void:
 	self.add_child(node)
 	node.global_position = Vector2(
 		MapSettings.OFFSET_LEFT + width * MapSettings.BLOCK_SIZE + MapSettings.HALF_BLOCK_SIZE,

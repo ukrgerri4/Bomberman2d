@@ -7,6 +7,10 @@ const explosion_start = preload("res://Scenes/Bomb/Explosion/ExplosionStart.tscn
 const explosion_middle = preload("res://Scenes/Bomb/Explosion/ExlosionMiddle.tscn")
 const explosion_end = preload("res://Scenes/Bomb/Explosion/ExplosionEnd.tscn")
 
+const power_up_extra_bomb_texture = preload("res://Assets/ItemExtraBomb.png")
+const power_up_blast_radius_texture = preload("res://Assets/ItemBlastRadius.png")
+const power_up_speed_increase_texture = preload("res://Assets/ItemSpeedIncrease.png")
+
 const player_textures = {
 	"white": preload("res://Assets/PlayerWhite.png"),
 	"black": preload("res://Assets/PlayerBlack.png"),

@@ -9,3 +9,5 @@ enum MapCellType {
 	POWER_UP = 2,
 	BRICK = 10
 }
+
+enum PowerUpType {EXTRA_BOMB, BLAST_INCREASE, SPEED_INCREASE}
