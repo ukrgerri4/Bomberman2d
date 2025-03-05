@@ -22,13 +22,14 @@ var _explosion_dict: Dictionary[Vector2, Array] = {
 	Vector2.RIGHT: []
 }
 var _explosion_timer: SceneTreeTimer = null
-var _explosion_delay: float = 3.0
-var _explosion_length: int = 2
+
+var explosion_delay: float = 3.0
+var explosion_length: int = 1
 
 func _ready() -> void:
 	bomb_collision_shape.disabled = true
 	GameEvents.bomb_hit.connect(_on_bomb_hit)
-	_explosion_timer = get_tree().create_timer(_explosion_delay)
+	_explosion_timer = get_tree().create_timer(explosion_delay)
 	_explosion_timer.timeout.connect(_on_timeout)
 
 func _exit_tree():
@@ -70,7 +71,7 @@ func _update_explosion_sprites() -> void:
 
 func _update_explosion_beam(direction: Vector2) -> void:
 	_explosion_dict[direction].append(global_position)
-	for i in range(_explosion_length):
+	for i in range(explosion_length):
 		var beam_number = i + 1
 		var beam_position = _get_beam_position(direction, beam_number)
 		var is_collide = true
@@ -85,7 +86,7 @@ func _update_explosion_beam(direction: Vector2) -> void:
 		
 		if not is_collide:
 			var top_beam: Sprite2D
-			if beam_number == _explosion_length:
+			if beam_number == explosion_length:
 				top_beam = ResourceManager.explosion_end.instantiate()
 			else:
 				top_beam = ResourceManager.explosion_middle.instantiate()

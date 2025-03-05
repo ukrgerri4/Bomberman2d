@@ -9,6 +9,7 @@ var _is_dead: bool = false
 var _direction: Vector2 = Vector2.ZERO
 var _max_bombs: int = 1
 var _bombs: int = 1
+var _bomb_beam_length: int = 1
 var _place_bomb_delay: float = 0.0
 
 @onready var animation_tree: AnimationTree = $AnimationTree
@@ -55,6 +56,7 @@ func _place_bomb() -> void: # TODO: move to some service
 	#print_debug("Should palce bomb, position: {0}, {1}".format([global_position, p]))
 	var bomb = ResourceManager.bomb_scene.instantiate()
 	bomb.player_owner = self
+	bomb.explosion_length = _bomb_beam_length
 	var container = get_node("/root/Main/Game/BombContainer")
 	container.add_child(bomb)
 	bomb.global_position = p
