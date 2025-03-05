@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://cp4t2kx34wq3c" path="res://Assets/PlayerWhite.png" id="3_laum7"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_4wa7d"]
-radius = 7.0
+radius = 28.0
 
 [sub_resource type="Animation" id="Animation_2mkog"]
 length = 0.001
@@ -183,7 +183,6 @@ graph_offset = Vector2(0, -437.533)
 
 [node name="Player" type="CharacterBody2D"]
 z_index = 2
-scale = Vector2(4, 4)
 collision_mask = 14
 motion_mode = 1
 slide_on_ceiling = false

@@ -3,5 +3,4 @@
 [ext_resource type="Texture2D" uid="uid://bhfs3t0kpyago" path="res://Assets/ItemBlastRadius.png" id="1_wnil2"]
 
 [node name="PowerUp" type="Sprite2D"]
-scale = Vector2(4, 4)
 texture = ExtResource("1_wnil2")

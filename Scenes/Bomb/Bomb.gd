@@ -134,7 +134,7 @@ func _update_area(values: Array, collision_shape: CollisionShape2D) -> void:
 	if values.size() <= 1:
 		collision_shape.disabled = true
 	else:
-		(collision_shape.shape as CapsuleShape2D).height = (abs(values.max()) - abs(values.min())) / 4
+		(collision_shape.shape as CapsuleShape2D).height = (abs(values.max()) - abs(values.min()))
 	
 
 func _get_beam_position(direction: Vector2, beam_number: int) -> Vector2:
@@ -182,7 +182,7 @@ func _update_explosion_animation() -> void:
 	bomb_collision_shape.disabled = true
 	bomb_animated_sprite.visible = false
 	bomb_animated_sprite.stop()
-	#explosion_sprites.visible = true
+	explosion_sprites.visible = true
 	explosion_area.monitoring = true
 	animation_player.play(EXPLOSION_ANIMATION_NAME)
 
