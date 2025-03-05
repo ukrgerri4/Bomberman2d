@@ -1,13 +1,14 @@
 class_name Player
 extends CharacterBody2D
 
-
 var _color: Constants.PlayerColor = Constants.PlayerColor.WHITE
 var _deviceId: int = -1
 
 var _speed = 200.0
 var _is_dead: bool = false
 var _direction: Vector2 = Vector2.ZERO
+var _max_bombs: int = 1
+var _bombs: int = 1
 var _place_bomb_delay: float = 0.0
 
 @onready var animation_tree: AnimationTree = $AnimationTree
@@ -16,6 +17,10 @@ var _place_bomb_delay: float = 0.0
 func initialize(color: Constants.PlayerColor, deviceId: int) -> void:
 	_color = color
 	_deviceId = deviceId
+
+func replenish_bombs() -> void:
+	if _bombs < _max_bombs:
+		_bombs += 1
 
 func _ready() -> void:
 	GameEvents.bomb_hit.connect(_on_player_hit)
@@ -36,10 +41,10 @@ func _physics_process(delta: float) -> void:
 func _handle_bomb_placement(delta: float) -> void:
 	_place_bomb_delay += delta
 	if _deviceId == -1:
-		if Input.is_action_pressed("place_bomb") and _place_bomb_delay > 0.25:
+		if Input.is_action_pressed("place_bomb") and _bombs > 0 and _place_bomb_delay > 0.25:
 			_place_bomb()
 	else:
-		if Input.is_joy_button_pressed(_deviceId, JOY_BUTTON_A) and _place_bomb_delay > 0.25:
+		if Input.is_joy_button_pressed(_deviceId, JOY_BUTTON_A) and _bombs > 0 and _place_bomb_delay > 0.25:
 			_place_bomb()
 
 func _place_bomb() -> void: # TODO: move to some service
@@ -49,13 +54,15 @@ func _place_bomb() -> void: # TODO: move to some service
 	)
 	#print_debug("Should palce bomb, position: {0}, {1}".format([global_position, p]))
 	var bomb = ResourceManager.bomb_scene.instantiate()
+	bomb.player_owner = self
 	var container = get_node("/root/Main/Game/BombContainer")
 	container.add_child(bomb)
 	bomb.global_position = p
 	_place_bomb_delay = 0.0
+	_bombs -= 1
 
 func _handle_movement(_delta: float) -> void:
-	var new_direction = get_current_direction()
+	var new_direction = _get_current_direction()
 	var x: float = new_direction.x
 	var y: float = new_direction.y
 	
@@ -75,7 +82,7 @@ func _handle_movement(_delta: float) -> void:
 	
 	move_and_slide()
 
-func get_current_direction() -> Vector2:
+func _get_current_direction() -> Vector2:
 	if _deviceId == -1:
 		return Vector2(
 			Input.get_axis("move_left", "move_right"),

@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://cp4t2kx34wq3c" path="res://Assets/PlayerWhite.png" id="3_laum7"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_4wa7d"]
-radius = 28.0
+radius = 30.0
 
 [sub_resource type="Animation" id="Animation_2mkog"]
 length = 0.001

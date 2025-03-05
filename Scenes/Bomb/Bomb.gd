@@ -7,15 +7,12 @@ const EXPLOSION_ANIMATION_NAME: String = "explosion"
 @onready var bomb_area: Area2D = $BombArea2D
 @onready var bomb_collision_shape: CollisionShape2D = $BombCollisionShape2D
 
-@onready var explosion_area: Area2D = $ExplosionArea2D
-@onready var up_explosion_area: CollisionShape2D = $ExplosionArea2D/UpCollisionShape
-@onready var down_explosion_area: CollisionShape2D = $ExplosionArea2D/DownCollisionShape
-@onready var left_explosion_area: CollisionShape2D = $ExplosionArea2D/LeftCollisionShape
-@onready var right_explosion_area: CollisionShape2D = $ExplosionArea2D/RightCollisionShape
-
 @onready var explosion_sprites: Node2D = $ExplosionSprites
+@onready var explosion_area: Area2D
 
 @onready var animation_player: AnimationPlayer
+
+var player_owner: Player
 
 var _is_exployded: bool = false
 var _explosion_dict: Dictionary[Vector2, Array] = {
@@ -50,8 +47,9 @@ func _on_bomb_hit(node: Node2D) -> void:
 func _expoyded() -> void:
 	if _is_exployded:
 		return
-	
 	_is_exployded = true
+	
+	player_owner.replenish_bombs()
 	
 	if _explosion_timer and _explosion_timer.timeout.is_connected(_on_timeout):
 		_explosion_timer.timeout.disconnect(_on_timeout)
@@ -78,12 +76,11 @@ func _update_explosion_beam(direction: Vector2) -> void:
 		var is_collide = true
 		var is_collide_with_brick = false
 		var collider = _check_collision(beam_position)
-		_check_collision2(beam_position)
+		#_check_collision2(beam_position)
 		
 		if collider == null:
 			is_collide = false
 		elif collider.is_in_group("bricks"):
-			is_collide = false
 			is_collide_with_brick = true
 		
 		if not is_collide:
@@ -96,9 +93,12 @@ func _update_explosion_beam(direction: Vector2) -> void:
 			top_beam.rotation_degrees = _get_beam_rotation(direction)
 			top_beam.global_position = beam_position
 			_explosion_dict[direction].append(beam_position)
+			continue
+		
+		if is_collide_with_brick:
+			_explosion_dict[direction].append(beam_position)
 			
-		if is_collide or is_collide_with_brick:
-			return
+		return
 
 func _check_collision(point: Vector2) -> Node2D:
 	var space_state = get_world_2d().direct_space_state
@@ -112,29 +112,56 @@ func _check_collision(point: Vector2) -> Node2D:
 		return result[0].collider;
 	return null
 
-func _check_collision2(point: Vector2) -> Constants.MapCellType:
-	var x = ceil((point.x - MapSettings.OFFSET_LEFT) / MapSettings.BLOCK_SIZE) - 1
-	var y = ceil((point.y - MapSettings.OFFSET_TOP) / MapSettings.BLOCK_SIZE) - 1
-	var max = Array(MapSettings.cells[x][y]).max()
-	#print("{0}, {1}, {2}, {3}".format([x, y, max, point]))
-	return max
+#func _check_collision2(point: Vector2) -> Constants.MapCellType:
+	#var x = ceil((point.x - MapSettings.OFFSET_LEFT) / MapSettings.BLOCK_SIZE) - 1
+	#var y = ceil((point.y - MapSettings.OFFSET_TOP) / MapSettings.BLOCK_SIZE) - 1
+	#var max = Array(MapSettings.cells[x][y]).max()
+	#return max
 
+# Build new Area2D for explosion
 func _update_explosion_area() -> void:
+	explosion_area = Area2D.new()
+	explosion_area.monitorable = false
+	explosion_area.monitoring = false
+	explosion_area.collision_layer = 0
+	explosion_area.collision_mask = 0
+	explosion_area.set_collision_layer_value(5, true)
+	explosion_area.set_collision_mask_value(1, true)
+	explosion_area.set_collision_mask_value(2, true)
+	explosion_area.set_collision_mask_value(4, true)
+	explosion_area.body_entered.connect(_on_explosion_area_2d_body_entered)
+	add_child(explosion_area)
+	
 	var up_values = _explosion_dict[Vector2.UP].map(func(v: Vector2): return v.y)
-	_update_area(up_values, up_explosion_area)
+	_update_area(up_values, Vector2.UP)
 	var down_values = _explosion_dict[Vector2.DOWN].map(func(v: Vector2): return v.y)
-	_update_area(down_values, down_explosion_area)
+	_update_area(down_values, Vector2.DOWN)
 	var left_values = _explosion_dict[Vector2.LEFT].map(func(v: Vector2): return v.x)
-	_update_area(left_values, left_explosion_area)
+	_update_area(left_values, Vector2.LEFT)
 	var right_values = _explosion_dict[Vector2.RIGHT].map(func(v: Vector2): return v.x)
-	_update_area(right_values, right_explosion_area)
+	_update_area(right_values, Vector2.RIGHT)
 
 
-func _update_area(values: Array, collision_shape: CollisionShape2D) -> void:
-	if values.size() <= 1:
-		collision_shape.disabled = true
-	else:
-		(collision_shape.shape as CapsuleShape2D).height = (abs(values.max()) - abs(values.min()))
+func _update_area(values: Array, direction: Vector2) -> void:
+	if values.size() > 1:
+		var collision_shape = CollisionShape2D.new()
+		var capsule_shape = CapsuleShape2D.new()
+		collision_shape.shape = capsule_shape
+		capsule_shape.radius = 20
+		capsule_shape.height = (abs(values.max()) - abs(values.min())) + MapSettings.HALF_BLOCK_SIZE - 2
+		
+		match direction:
+			Vector2.UP:
+				collision_shape.position.y = capsule_shape.height / 2 * -1
+			Vector2.DOWN:
+				collision_shape.position.y = capsule_shape.height / 2
+			Vector2.LEFT:
+				collision_shape.position.x = capsule_shape.height / 2 * -1
+				collision_shape.rotation_degrees = 90
+			Vector2.RIGHT:
+				collision_shape.position.x = capsule_shape.height / 2
+				collision_shape.rotation_degrees = 90
+		explosion_area.add_child(collision_shape)
 	
 
 func _get_beam_position(direction: Vector2, beam_number: int) -> Vector2:
@@ -187,7 +214,7 @@ func _update_explosion_animation() -> void:
 	animation_player.play(EXPLOSION_ANIMATION_NAME)
 
 func _on_explosion_area_2d_body_entered(body: Node2D) -> void:
-	#print_debug("Explosion area body entered: ", body)
+	print_debug("Explosion area body entered: ", body)
 	GameEvents.bomb_hit.emit(body)
 
 func _on_bomb_area_2d_body_exited(_body: Node2D) -> void:
@@ -198,5 +225,5 @@ func _enable_bomb_collision() -> void:
 	bomb_collision_shape.disabled = false
 
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
-	if anim_name == "explosion":
+	if anim_name == EXPLOSION_ANIMATION_NAME:
 		queue_free()
