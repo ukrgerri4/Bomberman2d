@@ -17,26 +17,21 @@ func initialize(color: Constants.PlayerColor, deviceId: int) -> void:
 	_color = color
 	_deviceId = deviceId
 
-
 func _ready() -> void:
-	GameEvents.player_hit.connect(_on_player_hit)
+	GameEvents.bomb_hit.connect(_on_player_hit)
 	var texture = ResourceManager.get_texture(_color)
 	sprite_2d.texture = texture
-
 
 func _process(delta: float) -> void:
 	_handle_bomb_placement(delta)
 	_update_animation()
 
-
 func _exit_tree():
-	if GameEvents.player_hit.is_connected(_on_player_hit):
-		GameEvents.player_hit.disconnect(_on_player_hit)
-
+	if GameEvents.bomb_hit.is_connected(_on_player_hit):
+		GameEvents.bomb_hit.disconnect(_on_player_hit)
 
 func _physics_process(delta: float) -> void:
 	_handle_movement(delta)
-
 
 func _handle_bomb_placement(delta: float) -> void:
 	_place_bomb_delay += delta
@@ -46,7 +41,6 @@ func _handle_bomb_placement(delta: float) -> void:
 	else:
 		if Input.is_joy_button_pressed(_deviceId, JOY_BUTTON_A) and _place_bomb_delay > 0.25:
 			_place_bomb()
-
 
 func _place_bomb() -> void: # TODO: move to some service
 	var p = Vector2(
@@ -59,7 +53,6 @@ func _place_bomb() -> void: # TODO: move to some service
 	container.add_child(bomb)
 	bomb.global_position = p
 	_place_bomb_delay = 0.0
-
 
 func _handle_movement(_delta: float) -> void:
 	var new_direction = get_current_direction()
@@ -81,7 +74,6 @@ func _handle_movement(_delta: float) -> void:
 		velocity = Vector2.ZERO
 	
 	move_and_slide()
-
 
 func get_current_direction() -> Vector2:
 	if _deviceId == -1:
@@ -107,18 +99,15 @@ func get_current_direction() -> Vector2:
 			
 		return direction
 
-
 func _get_joy_dpad_axis_x() -> float:
 	var negative_action = -1 if Input.is_joy_button_pressed(_deviceId, JOY_BUTTON_DPAD_LEFT) else 0
 	var positive_action = 1 if Input.is_joy_button_pressed(_deviceId, JOY_BUTTON_DPAD_RIGHT) else 0
 	return negative_action + positive_action
 
-
 func _get_joy_dpad_axis_y() -> float:
 	var negative_action = -1 if Input.is_joy_button_pressed(_deviceId, JOY_BUTTON_DPAD_UP) else 0
 	var positive_action = 1 if Input.is_joy_button_pressed(_deviceId, JOY_BUTTON_DPAD_DOWN) else 0
 	return negative_action + positive_action
-
 
 func _update_animation() -> void:
 	if (_is_dead):
@@ -127,13 +116,10 @@ func _update_animation() -> void:
 	
 	animation_tree["parameters/walk/blend_position"] = _direction
 
-
-func _on_player_hit(player: Player) -> void:
-	if player == self:
+func _on_player_hit(body: Node2D) -> void:
+	if body is Player and body == self:
 		_is_dead = true
 		set_physics_process(false) # stop player moving
-		
-
 
 func _on_animation_tree_animation_finished(anim_name: StringName) -> void:
 	if anim_name == "dead":

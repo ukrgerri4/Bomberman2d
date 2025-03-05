@@ -8,12 +8,22 @@ const EXPLOSION_ANIMATION_NAME: String = "explosion"
 @onready var bomb_collision_shape: CollisionShape2D = $BombCollisionShape2D
 
 @onready var explosion_area: Area2D = $ExplosionArea2D
+@onready var up_explosion_area: CollisionShape2D = $ExplosionArea2D/UpCollisionShape
+@onready var down_explosion_area: CollisionShape2D = $ExplosionArea2D/DownCollisionShape
+@onready var left_explosion_area: CollisionShape2D = $ExplosionArea2D/LeftCollisionShape
+@onready var right_explosion_area: CollisionShape2D = $ExplosionArea2D/RightCollisionShape
+
 @onready var explosion_sprites: Node2D = $ExplosionSprites
 
 @onready var animation_player: AnimationPlayer
 
 var _is_exployded: bool = false
-var _explosion: Array[Vector2] = [Vector2.ZERO]
+var _explosion_dict: Dictionary[Vector2, Array] = {
+	Vector2.UP: [],
+	Vector2.DOWN: [],
+	Vector2.LEFT: [],
+	Vector2.RIGHT: []
+}
 var _explosion_timer: SceneTreeTimer = null
 var _explosion_delay: float = 3.0
 var _explosion_length: int = 2
@@ -61,6 +71,7 @@ func _update_explosion_sprites() -> void:
 	_update_explosion_beam(Vector2.RIGHT)
 
 func _update_explosion_beam(direction: Vector2) -> void:
+	_explosion_dict[direction].append(global_position)
 	for i in range(_explosion_length):
 		var beam_number = i + 1
 		var beam_position = _get_beam_position(direction, beam_number)
@@ -84,6 +95,7 @@ func _update_explosion_beam(direction: Vector2) -> void:
 			explosion_sprites.add_child(top_beam)
 			top_beam.rotation_degrees = _get_beam_rotation(direction)
 			top_beam.global_position = beam_position
+			_explosion_dict[direction].append(beam_position)
 			
 		if is_collide or is_collide_with_brick:
 			return
@@ -108,7 +120,21 @@ func _check_collision2(point: Vector2) -> Constants.MapCellType:
 	return max
 
 func _update_explosion_area() -> void:
-	pass
+	var up_values = _explosion_dict[Vector2.UP].map(func(v: Vector2): return v.y)
+	_update_area(up_values, up_explosion_area)
+	var down_values = _explosion_dict[Vector2.DOWN].map(func(v: Vector2): return v.y)
+	_update_area(down_values, down_explosion_area)
+	var left_values = _explosion_dict[Vector2.LEFT].map(func(v: Vector2): return v.x)
+	_update_area(left_values, left_explosion_area)
+	var right_values = _explosion_dict[Vector2.RIGHT].map(func(v: Vector2): return v.x)
+	_update_area(right_values, right_explosion_area)
+
+
+func _update_area(values: Array, collision_shape: CollisionShape2D) -> void:
+	if values.size() <= 1:
+		collision_shape.disabled = true
+	else:
+		(collision_shape.shape as CapsuleShape2D).height = (abs(values.max()) - abs(values.min())) / 4
 	
 
 func _get_beam_position(direction: Vector2, beam_number: int) -> Vector2:
@@ -153,9 +179,10 @@ func _update_explosion_animation() -> void:
 		for i in range(8):
 			animation.track_insert_key(track_index, 0.25 * i, i)
 	animation_library.add_animation(EXPLOSION_ANIMATION_NAME, animation)
+	bomb_collision_shape.disabled = true
 	bomb_animated_sprite.visible = false
 	bomb_animated_sprite.stop()
-	explosion_sprites.visible = true
+	#explosion_sprites.visible = true
 	explosion_area.monitoring = true
 	animation_player.play(EXPLOSION_ANIMATION_NAME)
 
