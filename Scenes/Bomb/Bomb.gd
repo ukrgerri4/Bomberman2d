@@ -52,7 +52,7 @@ func _expoyded() -> void:
 		return
 	_is_exployded = true
 	
-	player_owner.replenish_bombs()
+	player_owner.replenish_bombs() # TODO: Attempt to call function 'replenish_bombs' in base 'previously freed' on a null instance. if player dead
 	
 	if _explosion_timer and _explosion_timer.timeout.is_connected(_on_timeout):
 		_explosion_timer.timeout.disconnect(_on_timeout)
