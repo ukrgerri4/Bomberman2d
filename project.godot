@@ -38,6 +38,7 @@ project/assembly_name="Bomberman"
 
 walls=""
 bricks=""
+power_ups=""
 
 [input]
 

@@ -1,12 +1,29 @@
-[gd_scene load_steps=4 format=3 uid="uid://br3x23jb2mxil"]
+[gd_scene load_steps=8 format=3 uid="uid://br3x23jb2mxil"]
 
 [ext_resource type="Script" uid="uid://dyv8bgkjofsn" path="res://Scenes/PowerUp/PowerUp.gd" id="1_3hf71"]
 [ext_resource type="Texture2D" uid="uid://bhfs3t0kpyago" path="res://Assets/ItemBlastRadius.png" id="1_wnil2"]
+[ext_resource type="Shader" uid="uid://cdobh3pt45rrn" path="res://Shaders/dissolve_from_point.gdshader" id="2_v5ap0"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rbyb8"]
 size = Vector2(64, 64)
 
-[node name="PowerUp" type="Area2D"]
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_gtc48"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_rtpde"]
+width = 256
+height = 256
+noise = SubResource("FastNoiseLite_gtc48")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_kdlqn"]
+shader = ExtResource("2_v5ap0")
+shader_parameter/position = Vector2(0, 0)
+shader_parameter/radius = 0.0
+shader_parameter/borderWidth = 0.02
+shader_parameter/burnMult = 0.135
+shader_parameter/noiseTexture = SubResource("NoiseTexture2D_rtpde")
+shader_parameter/burnColor = Color(0.223841, 0.0909139, 0.00101919, 1)
+
+[node name="PowerUp" type="Area2D" groups=["power_ups"]]
 z_index = 1
 collision_layer = 32
 collision_mask = 3
@@ -16,6 +33,7 @@ script = ExtResource("1_3hf71")
 shape = SubResource("RectangleShape2D_rbyb8")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_kdlqn")
 texture = ExtResource("1_wnil2")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

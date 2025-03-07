@@ -83,7 +83,7 @@ func _update_explosion_beam(direction: Vector2) -> void:
 		
 		if collider == null:
 			is_collide = false
-		elif collider.is_in_group("bricks"):
+		elif collider.is_in_group("bricks") or collider.is_in_group("power_ups"):
 			is_collide_with_brick = true
 		
 		if not is_collide:
@@ -107,9 +107,9 @@ func _check_collision(point: Vector2) -> Node2D:
 	var space_state = get_world_2d().direct_space_state
 	var query =  PhysicsPointQueryParameters2D.new()
 	query.position = point
-	query.collide_with_areas = false
+	query.collide_with_areas = true
 	query.collide_with_bodies = true
-	query.collision_mask = (1 << 2) | (1 << 3) # wall and brick
+	query.collision_mask = (1 << 2) | (1 << 3) | (1 << 5) # wall and brick
 	var result = space_state.intersect_point(query, 1)
 	if result.size() == 1:
 		return result[0].collider;
@@ -132,7 +132,9 @@ func _update_explosion_area() -> void:
 	explosion_area.set_collision_mask_value(1, true)
 	explosion_area.set_collision_mask_value(2, true)
 	explosion_area.set_collision_mask_value(4, true)
+	explosion_area.set_collision_mask_value(6, true)
 	explosion_area.body_entered.connect(_on_explosion_area_2d_body_entered)
+	explosion_area.area_entered.connect(_on_explosion_area_2d_body_entered)
 	add_child(explosion_area)
 	
 	var up_values = _explosion_dict[Vector2.UP].map(func(v: Vector2): return v.y)
@@ -218,8 +220,12 @@ func _update_explosion_animation() -> void:
 	animation_player.play(EXPLOSION_ANIMATION_NAME)
 
 func _on_explosion_area_2d_body_entered(body: Node2D) -> void:
-	#print_debug("Explosion area body entered: ", body)
+	print_debug("Explosion area body entered: ", body)
 	GameEvents.bomb_hit.emit(body)
+
+#func _on_explosion_area_2d_area_entered(body: Area2D) -> void:
+	#print_debug("Explosion area area entered: ", body)
+	#GameEvents.bomb_hit.emit(body)
 
 func _on_bomb_area_2d_body_exited(_body: Node2D) -> void:
 	#print_debug("Explosion area body entered: ", body)
