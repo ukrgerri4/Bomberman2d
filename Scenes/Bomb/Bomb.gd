@@ -2,6 +2,8 @@ class_name Bomb
 extends Node2D
 
 const EXPLOSION_ANIMATION_NAME: String = "explosion"
+const EXPLOSION_ANIMATION_TIME_BETWEEN_FRAMES: float = 0.25
+const EXPLOSION_ANIMATION_SPEED: float = 1.5
 
 @onready var bomb_animated_sprite: AnimatedSprite2D = $BombAnimatedSrpite2D
 @onready var bomb_area: Area2D = $BombArea2D
@@ -205,13 +207,14 @@ func _update_explosion_animation() -> void:
 		var track_index = animation.add_track(Animation.TYPE_VALUE)
 		animation.track_set_path(track_index, str(part.get_path()) + ":frame")
 		for i in range(8):
-			animation.track_insert_key(track_index, 0.25 * i, i)
+			animation.track_insert_key(track_index, EXPLOSION_ANIMATION_TIME_BETWEEN_FRAMES * i, i)
 	animation_library.add_animation(EXPLOSION_ANIMATION_NAME, animation)
 	bomb_collision_shape.disabled = true
 	bomb_animated_sprite.visible = false
 	bomb_animated_sprite.stop()
 	explosion_sprites.visible = true
 	explosion_area.monitoring = true
+	animation_player.speed_scale = EXPLOSION_ANIMATION_SPEED
 	animation_player.play(EXPLOSION_ANIMATION_NAME)
 
 func _on_explosion_area_2d_body_entered(body: Node2D) -> void:
