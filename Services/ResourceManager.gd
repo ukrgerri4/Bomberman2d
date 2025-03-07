@@ -1,6 +1,7 @@
 extends Node
 
 const player_scene = preload("res://Scenes/Player/Player.tscn")
+const player_panel_scene = preload("res://Scenes/PlayerPanel/PlayerPanel.tscn")
 const bomb_scene = preload("res://Scenes/Bomb/Bomb.tscn")
 
 const explosion_start = preload("res://Scenes/Bomb/Explosion/ExplosionStart.tscn")
@@ -18,7 +19,14 @@ const player_textures = {
 	"red": preload("res://Assets/PlayerRed.png")
 }
 
-func get_texture(playerColor: Constants.PlayerColor) -> Texture2D:
+const player_head_textures = {
+	"white": preload("res://Assets/PlayerWhiteHead.png"),
+	"black": preload("res://Assets/PlayerBlackHead.png"),
+	"blue": preload("res://Assets/PlayerBlueHead.png"),
+	"red": preload("res://Assets/PlayerRedHead.png")
+}
+
+func get_player_texture(playerColor: Constants.PlayerColor) -> Texture2D:
 	match playerColor:
 		Constants.PlayerColor.WHITE:
 			return player_textures["white"]
@@ -28,6 +36,20 @@ func get_texture(playerColor: Constants.PlayerColor) -> Texture2D:
 			return player_textures["blue"]
 		Constants.PlayerColor.RED:
 			return player_textures["red"]
+		_:
+			printerr("Color {0} not found.".format([playerColor]))
+			return null
+
+func get_player_head_texture(playerColor: Constants.PlayerColor) -> Texture2D:
+	match playerColor:
+		Constants.PlayerColor.WHITE:
+			return player_head_textures["white"]
+		Constants.PlayerColor.BLACK:
+			return player_head_textures["black"]
+		Constants.PlayerColor.BLUE:
+			return player_head_textures["blue"]
+		Constants.PlayerColor.RED:
+			return player_head_textures["red"]
 		_:
 			printerr("Color {0} not found.".format([playerColor]))
 			return null

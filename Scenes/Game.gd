@@ -1,6 +1,6 @@
 extends Node2D
 
-
+@onready var player_panel_container: HBoxContainer = $PanelContainer/MarginContainer/HBoxContainer
 @onready var player_container: Node2D = $PlayerContainer
 var players = [
 	{
@@ -42,6 +42,7 @@ func _ready() -> void:
 		var player = players[i]
 		if player.is_active:
 			print_debug("PlayerId {0} is active.".format([player.id]))
+		_add_player_panel(player.color)
 		_add_player(player.color, player.device_id, player.spawn_position)
 		player.is_active = true
 
@@ -50,3 +51,8 @@ func _add_player(color: Constants.PlayerColor, deviceId: int, spawn_position: Ve
 	player.initialize(color, deviceId)
 	player_container.add_child(player)
 	player.global_position = spawn_position
+
+func _add_player_panel(color: Constants.PlayerColor) -> void:
+	var player_panel = ResourceManager.player_panel_scene.instantiate()
+	player_panel.initialize(color)
+	player_panel_container.add_child(player_panel)

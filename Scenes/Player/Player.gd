@@ -6,7 +6,7 @@ const DEAD_ANIMATION_NAME: String = "dead"
 @onready var animation_tree: AnimationTree = $AnimationTree
 @onready var sprite_2d: Sprite2D = $Sprite2D
 
-var _color: Constants.PlayerColor = Constants.PlayerColor.WHITE
+var color: Constants.PlayerColor = Constants.PlayerColor.WHITE
 var _deviceId: int = -1
 var _max_speed: int = 400
 var _min_speed: int = 200
@@ -14,37 +14,23 @@ var _speed: int = 200.0
 var _speed_increase_duration: int = 10
 var _is_dead: bool = false
 var _direction: Vector2 = Vector2.ZERO
-var _max_bombs: int = 5
+var _max_bomb_count: int = 5
 var _max_blast_length: int = 5
-var _bombs: int = 2
+var bomb_count: int = 0
 var _blast_length: int = 1
 var _place_bomb_delay: float = 0.0
 var _speed_increase_timer: SceneTreeTimer = null
 
-func initialize(color: Constants.PlayerColor, deviceId: int) -> void:
-	_color = color
+func initialize(player_color: Constants.PlayerColor, deviceId: int) -> void:
+	color = player_color
 	_deviceId = deviceId
 
-func replenish_bombs() -> void:
-	if _bombs < _max_bombs:
-		_bombs += 1
-
-func increase_blast_length() -> void:
-	if _blast_length < _max_blast_length:
-		_blast_length += 1
-
-func increase_speed() -> void:
-	_speed = clampi(_speed + 200, _min_speed, _max_speed)
-	_disconnect_speed_increase_timer()
-	_speed_increase_timer = get_tree().create_timer(_speed_increase_duration)
-	_speed_increase_timer.timeout.connect(decrease_speed)
-
-func decrease_speed() -> void:
-	_speed = clampi(_speed - 200, _min_speed, _max_speed)
+func _init() -> void:
+	GameEvents.bomb_hit.connect(_on_player_hit)
 
 func _ready() -> void:
-	GameEvents.bomb_hit.connect(_on_player_hit)
-	var texture = ResourceManager.get_texture(_color)
+	_increase_bomb_count(2)
+	var texture = ResourceManager.get_player_texture(color)
 	sprite_2d.texture = texture
 
 func _process(delta: float) -> void:
@@ -66,10 +52,10 @@ func _physics_process(delta: float) -> void:
 func _handle_bomb_placement(delta: float) -> void:
 	_place_bomb_delay += delta
 	if _deviceId == -1:
-		if Input.is_action_pressed("place_bomb") and _bombs > 0 and _place_bomb_delay > 0.25:
+		if Input.is_action_pressed("place_bomb") and bomb_count > 0 and _place_bomb_delay > 0.25:
 			_place_bomb()
 	else:
-		if Input.is_joy_button_pressed(_deviceId, JOY_BUTTON_A) and _bombs > 0 and _place_bomb_delay > 0.25:
+		if Input.is_joy_button_pressed(_deviceId, JOY_BUTTON_A) and bomb_count > 0 and _place_bomb_delay > 0.25:
 			_place_bomb()
 
 func _place_bomb() -> void: # TODO: move to some service
@@ -85,7 +71,7 @@ func _place_bomb() -> void: # TODO: move to some service
 	container.add_child(bomb)
 	bomb.global_position = spawn_point
 	_place_bomb_delay = 0.0
-	_bombs -= 1
+	_decrease_bomb_count(1)
 
 func _handle_movement(_delta: float) -> void:
 	var new_direction = _get_current_direction()
@@ -148,6 +134,31 @@ func _update_animation() -> void:
 		return
 	
 	animation_tree["parameters/walk/blend_position"] = _direction
+
+func replenish_bombs() -> void:
+	if bomb_count < _max_bomb_count:
+		_increase_bomb_count(1)
+
+func _increase_bomb_count(count: int) -> void:
+	bomb_count += count
+	GameEvents.player_bomb_count_changed.emit(self)
+
+func _decrease_bomb_count(count: int) -> void:
+	bomb_count -= count
+	GameEvents.player_bomb_count_changed.emit(self)
+
+func increase_blast_length() -> void:
+	if _blast_length < _max_blast_length:
+		_blast_length += 1
+
+func increase_speed() -> void:
+	_speed = clampi(_speed + 200, _min_speed, _max_speed)
+	_disconnect_speed_increase_timer()
+	_speed_increase_timer = get_tree().create_timer(_speed_increase_duration)
+	_speed_increase_timer.timeout.connect(decrease_speed)
+
+func decrease_speed() -> void:
+	_speed = clampi(_speed - 200, _min_speed, _max_speed)
 
 func _on_player_hit(body: Node2D) -> void:
 	if body is Player and body == self:
