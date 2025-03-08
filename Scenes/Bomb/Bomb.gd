@@ -16,6 +16,8 @@ const EXPLOSION_ANIMATION_SPEED: float = 1.5
 
 var player_owner: Player
 
+var players_stand_on_bomb: int = 0
+
 var _is_exployded: bool = false
 var _explosion_dict: Dictionary[Vector2, Array] = {
 	Vector2.UP: [],
@@ -80,7 +82,6 @@ func _update_explosion_beam(direction: Vector2) -> void:
 		var is_collide = true
 		var is_collide_with_brick = false
 		var collider = _check_collision(beam_position)
-		#_check_collision2(beam_position)
 		
 		if collider == null:
 			is_collide = false
@@ -115,12 +116,6 @@ func _check_collision(point: Vector2) -> Node2D:
 	if result.size() == 1:
 		return result[0].collider;
 	return null
-
-#func _check_collision2(point: Vector2) -> Constants.MapCellType:
-	#var x = ceil((point.x - MapSettings.OFFSET_LEFT) / MapSettings.BLOCK_SIZE) - 1
-	#var y = ceil((point.y - MapSettings.OFFSET_TOP) / MapSettings.BLOCK_SIZE) - 1
-	#var max = Array(MapSettings.cells[x][y]).max()
-	#return max
 
 # Build new Area2D for explosion
 func _update_explosion_area() -> void:
@@ -224,9 +219,15 @@ func _on_explosion_area_2d_body_entered(body: Node2D) -> void:
 	#print_debug("Explosion area body entered: ", body)
 	GameEvents.bomb_hit.emit(body)
 
-func _on_bomb_area_2d_body_exited(_body: Node2D) -> void:
-	#print_debug("Explosion area body entered: ", body)
-	_enable_bomb_collision.call_deferred() 
+func _on_bomb_area_2d_body_entered(body: Node2D) -> void:
+	if body is Player:
+		players_stand_on_bomb += 1
+
+func _on_bomb_area_2d_body_exited(body: Node2D) -> void:
+	if body is Player:
+		players_stand_on_bomb -= 1
+		if players_stand_on_bomb <= 0:
+			_enable_bomb_collision.call_deferred() 
 
 func _enable_bomb_collision() -> void:
 	bomb_area.monitoring = false

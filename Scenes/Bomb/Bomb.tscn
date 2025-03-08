@@ -70,4 +70,5 @@ shape = SubResource("CircleShape2D_74mvq")
 [node name="ExplosionSprites" type="Node2D" parent="."]
 visible = false
 
+[connection signal="body_entered" from="BombArea2D" to="." method="_on_bomb_area_2d_body_entered"]
 [connection signal="body_exited" from="BombArea2D" to="." method="_on_bomb_area_2d_body_exited"]

@@ -5,7 +5,7 @@
 [ext_resource type="Shader" uid="uid://cdobh3pt45rrn" path="res://Shaders/dissolve_from_point.gdshader" id="2_v5ap0"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rbyb8"]
-size = Vector2(64, 64)
+size = Vector2(48, 48)
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_gtc48"]
 

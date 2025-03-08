@@ -6,6 +6,8 @@ const DESTRUCTION_ANIMATION_NAME: String = "destruction"
 
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 
+var map_position: Vector2
+
 var _is_destructing: bool = false
 
 func _ready() -> void:
@@ -17,6 +19,7 @@ func _destruct() -> void:
 	animated_sprite.play()
 
 func _on_animated_sprite_2d_animation_finished() -> void:
+	GameEvents.brick_destroyed.emit(map_position)
 	queue_free()
 
 func _on_brick_hit(node: Node2D) -> void:

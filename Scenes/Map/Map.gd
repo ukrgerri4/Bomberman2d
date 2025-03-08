@@ -51,6 +51,7 @@ func _generate_level() -> void:
 	for i in brick_indexes:
 		var cell = random_cells[i]
 		var brick = brick_scene.instantiate()
+		brick.map_position = Vector2(cell.x, cell.y)
 		_add_to_cells(brick, cell.x, cell.y)
 		MapSettings.cells[cell.x][cell.y].append(Constants.MapCellType.BRICK)
 	
@@ -66,18 +67,22 @@ func _generate_level() -> void:
 	for i in power_up_indexes:
 		var random_brick_index = brick_indexes[i]
 		var cell = random_cells[random_brick_index]
-		var power_up: Node2D
+		var power_up: PowerUp
 		
-		if power_up_counter < POWER_UPS_NUMBER / 3:
+		if power_up_counter < POWER_UPS_NUMBER / 3.0:
 			power_up = power_up_scene.instantiate()
 			power_up.type = Constants.PowerUpType.SPEED_INCREASE
-		if power_up_counter >= POWER_UPS_NUMBER / 3 and power_up_counter < POWER_UPS_NUMBER / 3 * 2:
+		if power_up_counter >= POWER_UPS_NUMBER / 3.0 and power_up_counter < POWER_UPS_NUMBER / 3.0 * 2.0:
 			power_up = power_up_scene.instantiate()
 			power_up.type = Constants.PowerUpType.EXTRA_BOMB
-		if power_up_counter >= POWER_UPS_NUMBER / 3 * 2 and power_up_counter < POWER_UPS_NUMBER:
+		if power_up_counter >= POWER_UPS_NUMBER / 3.0 * 2.0 and power_up_counter < POWER_UPS_NUMBER:
 			power_up = power_up_scene.instantiate()
 			power_up.type = Constants.PowerUpType.BLAST_INCREASE
 		
+		power_up.map_position = Vector2(cell.x, cell.y)
+		power_up.monitoring = false
+		power_up.monitorable = false
+		power_up.visible = false
 		_add_to_cells(power_up, cell.x, cell.y)
 		MapSettings.cells[cell.x][cell.y].append(Constants.MapCellType.POWER_UP)
 		power_up_counter += 1
