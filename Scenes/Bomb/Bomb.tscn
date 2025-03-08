@@ -63,7 +63,6 @@ frame_progress = 0.195407
 [node name="BombArea2D" type="Area2D" parent="."]
 visible = false
 collision_layer = 2
-monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BombArea2D"]
 shape = SubResource("CircleShape2D_74mvq")

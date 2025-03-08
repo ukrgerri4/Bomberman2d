@@ -44,7 +44,7 @@ func _on_timeout() -> void:
 	_expoyded.call_deferred()
 
 func _on_bomb_hit(node: Node2D) -> void:
-	if node is Bomb and node == self:
+	if node is Bomb and node == self or node is Area2D and node == bomb_area:
 		_expoyded.call_deferred()
 
 func _expoyded() -> void:
@@ -52,7 +52,8 @@ func _expoyded() -> void:
 		return
 	_is_exployded = true
 	
-	player_owner.replenish_bombs() # TODO: Attempt to call function 'replenish_bombs' in base 'previously freed' on a null instance. if player dead
+	if player_owner and player_owner.is_inside_tree():
+		GameEvents.bomb_expoyded.emit(player_owner)
 	
 	if _explosion_timer and _explosion_timer.timeout.is_connected(_on_timeout):
 		_explosion_timer.timeout.disconnect(_on_timeout)
@@ -109,7 +110,7 @@ func _check_collision(point: Vector2) -> Node2D:
 	query.position = point
 	query.collide_with_areas = true
 	query.collide_with_bodies = true
-	query.collision_mask = (1 << 2) | (1 << 3) | (1 << 5) # wall and brick
+	query.collision_mask = (1 << 2) | (1 << 3) | (1 << 5) # wall, brick, power_up
 	var result = space_state.intersect_point(query, 1)
 	if result.size() == 1:
 		return result[0].collider;
@@ -128,11 +129,11 @@ func _update_explosion_area() -> void:
 	explosion_area.monitoring = false
 	explosion_area.collision_layer = 0
 	explosion_area.collision_mask = 0
-	explosion_area.set_collision_layer_value(5, true)
-	explosion_area.set_collision_mask_value(1, true)
-	explosion_area.set_collision_mask_value(2, true)
-	explosion_area.set_collision_mask_value(4, true)
-	explosion_area.set_collision_mask_value(6, true)
+	explosion_area.set_collision_layer_value(5, true) # explosion
+	explosion_area.set_collision_mask_value(1, true)  # player
+	explosion_area.set_collision_mask_value(2, true)  # bomb
+	explosion_area.set_collision_mask_value(4, true)  # brick
+	explosion_area.set_collision_mask_value(6, true)  # power_up
 	explosion_area.body_entered.connect(_on_explosion_area_2d_body_entered)
 	explosion_area.area_entered.connect(_on_explosion_area_2d_body_entered)
 	add_child(explosion_area)
@@ -220,18 +221,16 @@ func _update_explosion_animation() -> void:
 	animation_player.play(EXPLOSION_ANIMATION_NAME)
 
 func _on_explosion_area_2d_body_entered(body: Node2D) -> void:
-	print_debug("Explosion area body entered: ", body)
+	#print_debug("Explosion area body entered: ", body)
 	GameEvents.bomb_hit.emit(body)
-
-#func _on_explosion_area_2d_area_entered(body: Area2D) -> void:
-	#print_debug("Explosion area area entered: ", body)
-	#GameEvents.bomb_hit.emit(body)
 
 func _on_bomb_area_2d_body_exited(_body: Node2D) -> void:
 	#print_debug("Explosion area body entered: ", body)
 	_enable_bomb_collision.call_deferred() 
 
 func _enable_bomb_collision() -> void:
+	bomb_area.monitoring = false
+	bomb_area.monitorable = false
 	bomb_collision_shape.disabled = false
 
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:

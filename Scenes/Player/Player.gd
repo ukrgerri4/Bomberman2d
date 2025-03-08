@@ -27,6 +27,10 @@ func initialize(player_color: Constants.PlayerColor, deviceId: int) -> void:
 
 func _init() -> void:
 	GameEvents.bomb_hit.connect(_on_player_hit)
+	GameEvents.bomb_expoyded.connect(_on_player_bomb_expoyded)
+	GameEvents.extra_bomb_power_up_picked.connect(_on_extra_bomb_power_up_picked)
+	GameEvents.increase_blast_length_power_up_picked.connect(_on_increase_blast_length_power_up_picked)
+	GameEvents.increase_speed_power_up_picked.connect(_on_increase_speed_power_up_picked)
 
 func _ready() -> void:
 	_increase_bomb_count(2)
@@ -40,11 +44,19 @@ func _process(delta: float) -> void:
 func _exit_tree():
 	if GameEvents.bomb_hit.is_connected(_on_player_hit):
 		GameEvents.bomb_hit.disconnect(_on_player_hit)
+	if GameEvents.bomb_expoyded.is_connected(_on_player_bomb_expoyded):
+		GameEvents.bomb_expoyded.disconnect(_on_player_bomb_expoyded)
+	if GameEvents.extra_bomb_power_up_picked.is_connected(_on_extra_bomb_power_up_picked):
+		GameEvents.extra_bomb_power_up_picked.disconnect(_on_extra_bomb_power_up_picked)
+	if GameEvents.increase_blast_length_power_up_picked.is_connected(_on_increase_blast_length_power_up_picked):
+		GameEvents.increase_blast_length_power_up_picked.disconnect(_on_increase_blast_length_power_up_picked)
+	if GameEvents.increase_speed_power_up_picked.is_connected(_on_increase_speed_power_up_picked):
+		GameEvents.increase_speed_power_up_picked.disconnect(_on_increase_speed_power_up_picked)
 	_disconnect_speed_increase_timer()
 
 func _disconnect_speed_increase_timer() -> void:
-	if _speed_increase_timer and _speed_increase_timer.timeout.is_connected(decrease_speed):
-		_speed_increase_timer.timeout.disconnect(decrease_speed)
+	if _speed_increase_timer and _speed_increase_timer.timeout.is_connected(_decrease_speed):
+		_speed_increase_timer.timeout.disconnect(_decrease_speed)
 
 func _physics_process(delta: float) -> void:
 	_handle_movement(delta)
@@ -132,12 +144,7 @@ func _update_animation() -> void:
 	if (_is_dead):
 		animation_tree["parameters/conditions/is_dead"] = _is_dead
 		return
-	
 	animation_tree["parameters/walk/blend_position"] = _direction
-
-func replenish_bombs() -> void:
-	if bomb_count < _max_bomb_count:
-		_increase_bomb_count(1)
 
 func _increase_bomb_count(count: int) -> void:
 	bomb_count += count
@@ -147,26 +154,38 @@ func _decrease_bomb_count(count: int) -> void:
 	bomb_count -= count
 	GameEvents.player_bomb_count_changed.emit(self)
 
-func increase_blast_length() -> void:
-	if _blast_length < _max_blast_length:
-		_blast_length += 1
-
-func increase_speed() -> void:
-	_speed = clampi(_speed + 200, _min_speed, _max_speed)
-	_disconnect_speed_increase_timer()
-	_speed_increase_timer = get_tree().create_timer(_speed_increase_duration)
-	_speed_increase_timer.timeout.connect(decrease_speed)
-
-func decrease_speed() -> void:
+func _decrease_speed() -> void:
 	_speed = clampi(_speed - 200, _min_speed, _max_speed)
-
-func _on_player_hit(body: Node2D) -> void:
-	if body is Player and body == self:
-		_is_dead = true
-		set_physics_process(false) # stop player moving
 
 func _on_animation_tree_animation_finished(anim_name: StringName) -> void:
 	if anim_name == DEAD_ANIMATION_NAME:
 		#print_debug("Player animation ended: ", anim_name)
 		#update_score()
 		queue_free()
+
+func _on_player_hit(body: Node2D) -> void:
+	if body is Player and body == self:
+		_is_dead = true
+		set_physics_process(false) # stop player moving
+
+func _on_player_bomb_expoyded(player: Player) -> void:
+	if player and player == self:
+		if bomb_count < _max_bomb_count:
+			_increase_bomb_count(1)
+
+func _on_extra_bomb_power_up_picked(player: Player) -> void:
+	if player and player == self:
+		if bomb_count < _max_bomb_count:
+			_increase_bomb_count(1)
+	
+func _on_increase_blast_length_power_up_picked(player: Player) -> void:
+	if player and player == self:
+		if _blast_length < _max_blast_length:
+			_blast_length += 1
+		
+func _on_increase_speed_power_up_picked(player: Player) -> void:
+	if player and player == self:
+		_speed = clampi(_speed + 200, _min_speed, _max_speed)
+		_disconnect_speed_increase_timer()
+		_speed_increase_timer = get_tree().create_timer(_speed_increase_duration)
+		_speed_increase_timer.timeout.connect(_decrease_speed)

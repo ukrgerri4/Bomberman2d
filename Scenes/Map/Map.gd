@@ -48,11 +48,11 @@ func _generate_level() -> void:
 		if rand_index not in brick_indexes:
 			brick_indexes.append(rand_index)
 	
-	#for i in brick_indexes:
-		#var cell = random_cells[i]
-		#var brick = brick_scene.instantiate()
-		#_add_to_cells(brick, cell.x, cell.y)
-		#MapSettings.cells[cell.x][cell.y].append(Constants.MapCellType.BRICK)
+	for i in brick_indexes:
+		var cell = random_cells[i]
+		var brick = brick_scene.instantiate()
+		_add_to_cells(brick, cell.x, cell.y)
+		MapSettings.cells[cell.x][cell.y].append(Constants.MapCellType.BRICK)
 	
 	# Generate random power ups
 	var power_up_indexes: Array[int] = []
