@@ -1,0 +1,73 @@
+[gd_scene load_steps=10 format=3 uid="uid://60mo575sjggp"]
+
+[ext_resource type="Script" uid="uid://do7km6nuoiqv1" path="res://Scenes/MainScreen/MainScreen.gd" id="1_cnqt4"]
+[ext_resource type="PackedScene" uid="uid://cnjiphwhynvqt" path="res://Scenes/RotatedTextureButton/RotatedTextureButton.tscn" id="2_powyr"]
+[ext_resource type="Shader" uid="uid://cmm66enm6m2up" path="res://Shaders/fake_3d_rotation.gdshader" id="3_6wn1e"]
+[ext_resource type="Texture2D" uid="uid://b8uo0onpaqtqm" path="res://Assets/UI/start_button.png" id="3_ke8gl"]
+[ext_resource type="Texture2D" uid="uid://dok7pru8gn3qk" path="res://Assets/UI/settings_button.png" id="4_ajvpp"]
+[ext_resource type="Texture2D" uid="uid://c8ekmyvmxxgg0" path="res://Assets/UI/exit_button.png" id="5_6wn1e"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_thpsn"]
+resource_local_to_scene = true
+shader = ExtResource("3_6wn1e")
+shader_parameter/fov = 90.0
+shader_parameter/cull_back = true
+shader_parameter/y_rot = 0.0
+shader_parameter/x_rot = 0.0
+shader_parameter/inset = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8g0ux"]
+resource_local_to_scene = true
+shader = ExtResource("3_6wn1e")
+shader_parameter/fov = 90.0
+shader_parameter/cull_back = true
+shader_parameter/y_rot = 0.0
+shader_parameter/x_rot = 0.0
+shader_parameter/inset = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_iblp6"]
+resource_local_to_scene = true
+shader = ExtResource("3_6wn1e")
+shader_parameter/fov = 90.0
+shader_parameter/cull_back = true
+shader_parameter/y_rot = 0.0
+shader_parameter/x_rot = 0.0
+shader_parameter/inset = 0.0
+
+[node name="MainScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_cnqt4")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+z_index = -1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="StartButton" parent="." instance=ExtResource("2_powyr")]
+material = SubResource("ShaderMaterial_thpsn")
+layout_mode = 1
+texture_normal = ExtResource("3_ke8gl")
+
+[node name="SettingsButton" parent="." instance=ExtResource("2_powyr")]
+material = SubResource("ShaderMaterial_8g0ux")
+layout_mode = 1
+offset_top = 70.0
+offset_bottom = 130.0
+texture_normal = ExtResource("4_ajvpp")
+
+[node name="ExitButton" parent="." instance=ExtResource("2_powyr")]
+material = SubResource("ShaderMaterial_iblp6")
+layout_mode = 1
+offset_top = 170.0
+offset_bottom = 230.0
+texture_normal = ExtResource("5_6wn1e")

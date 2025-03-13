@@ -1,8 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://dexuxwatrirsp"]
+[gd_scene load_steps=9 format=3 uid="uid://dexuxwatrirsp"]
 
 [ext_resource type="Script" uid="uid://bkgh1rfeelxwb" path="res://Main.gd" id="1_8jd5a"]
 [ext_resource type="Script" uid="uid://diy2m1haxlvh8" path="res://Scenes/Game.gd" id="1_m3fas"]
+[ext_resource type="PackedScene" uid="uid://csis4e2qkes00" path="res://Scenes/SplashScreen/SplashScreen.tscn" id="2_fos0i"]
 [ext_resource type="PackedScene" uid="uid://cbtsxbfbmi3ft" path="res://Scenes/Map/Map.tscn" id="3_0vl73"]
+[ext_resource type="PackedScene" uid="uid://60mo575sjggp" path="res://Scenes/MainScreen/MainScreen.tscn" id="3_3dxm6"]
 [ext_resource type="FontFile" uid="uid://j5ki7s4bcxir" path="res://Assets/Fonts/PressStart2P-Regular.ttf" id="3_03owx"]
 
 [sub_resource type="Theme" id="Theme_wkp8b"]
@@ -14,7 +16,17 @@ bg_color = Color(0.0627451, 0.345098, 0.188235, 1)
 [node name="Main" type="Node2D"]
 script = ExtResource("1_8jd5a")
 
+[node name="SplashScreen" parent="." instance=ExtResource("2_fos0i")]
+offset_right = 1920.0
+offset_bottom = 1080.0
+
+[node name="MainScreen" parent="." instance=ExtResource("3_3dxm6")]
+visible = false
+offset_right = 1920.0
+offset_bottom = 1080.0
+
 [node name="Game" type="Node2D" parent="."]
+visible = false
 script = ExtResource("1_m3fas")
 
 [node name="ColorRect" type="ColorRect" parent="Game"]
@@ -46,3 +58,5 @@ theme_override_constants/separation = 30
 [node name="BombContainer" type="Node2D" parent="Game"]
 
 [node name="Map" parent="Game" instance=ExtResource("3_0vl73")]
+
+[connection signal="animation_finished" from="SplashScreen" to="." method="_on_splash_screen_animation_finished"]

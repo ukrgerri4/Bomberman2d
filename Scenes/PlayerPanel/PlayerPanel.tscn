@@ -1,18 +1,15 @@
-[gd_scene load_steps=6 format=3 uid="uid://dmpw38bt3pkud"]
+[gd_scene load_steps=5 format=3 uid="uid://dmpw38bt3pkud"]
 
-[ext_resource type="FontFile" uid="uid://j5ki7s4bcxir" path="res://Assets/Fonts/PressStart2P-Regular.ttf" id="1_dlvqa"]
+[ext_resource type="Theme" uid="uid://dtbb8r8t2udfi" path="res://Themes/default_theme.tres" id="1_awjiy"]
 [ext_resource type="Texture2D" uid="uid://4n04h7jvdko5" path="res://Assets/PlayerWhiteHead.png" id="1_i637c"]
 [ext_resource type="Script" uid="uid://bnxaq08if4bo" path="res://Scenes/PlayerPanel/PlayerPanel.gd" id="2_awjiy"]
 [ext_resource type="Texture2D" uid="uid://14s6kiudm0cc" path="res://Assets/BombIcon.png" id="2_dlvqa"]
-
-[sub_resource type="Theme" id="Theme_awjiy"]
-default_font = ExtResource("1_dlvqa")
 
 [node name="Panel" type="Panel"]
 custom_minimum_size = Vector2(160, 80)
 offset_right = 160.0
 offset_bottom = 80.0
-theme = SubResource("Theme_awjiy")
+theme = ExtResource("1_awjiy")
 script = ExtResource("2_awjiy")
 
 [node name="PlayerHead" type="Sprite2D" parent="."]

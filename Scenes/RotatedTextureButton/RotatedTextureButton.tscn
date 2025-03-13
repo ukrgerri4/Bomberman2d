@@ -1,0 +1,112 @@
+[gd_scene load_steps=4 format=3 uid="uid://cnjiphwhynvqt"]
+
+[ext_resource type="Shader" uid="uid://cmm66enm6m2up" path="res://Shaders/fake_3d_rotation.gdshader" id="1_ttjyv"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_r41w3"]
+resource_local_to_scene = true
+shader = ExtResource("1_ttjyv")
+shader_parameter/fov = 90.0
+shader_parameter/cull_back = true
+shader_parameter/y_rot = 0.0
+shader_parameter/x_rot = 0.0
+shader_parameter/inset = 0.0
+
+[sub_resource type="GDScript" id="GDScript_ttjyv"]
+script/source = "extends TextureButton
+
+const TWEEN_TIME: float = 1.5
+const DEGREES_Y: float = 10.0
+const DEGREES_X: float = 5.0
+const TWEEN_TRANS: Tween.TransitionType = Tween.TRANS_QUAD
+const SHADER_INSET: float = 0.2
+
+var _tween: Tween
+var _is_mouse_inside_button: bool = false
+
+func _ready() -> void:
+	mouse_entered.connect(_on_mouse_entered)
+	mouse_exited.connect(_on_mouse_exited)
+	button_down.connect(_on_button_down)
+	button_up.connect(_on_button_up)
+	pressed.connect(_on_pressed)
+	
+	material.set(\"shader_parameter/inset\", SHADER_INSET)
+
+func _start_animation():
+	# Scale up button
+	if _tween:
+		_tween.kill()
+	_tween = create_tween()
+	# initial value should be 0.1 for this parameter
+	_tween.tween_property(material, \"shader_parameter/inset\", 0.0, 0.2).set_trans(Tween.TRANS_LINEAR)
+	await _tween.finished
+	
+	# Start rotation loop
+	if _tween:
+		_tween.kill()
+	
+	_tween = create_tween()
+	_tween.set_loops()
+	
+	_tween.tween_property(material, \"shader_parameter/y_rot\", DEGREES_Y, TWEEN_TIME).set_trans(TWEEN_TRANS).set_ease(Tween.EASE_OUT)
+	_tween.parallel().tween_property(material, \"shader_parameter/x_rot\", DEGREES_X, TWEEN_TIME).set_trans(TWEEN_TRANS).set_ease(Tween.EASE_OUT)
+	
+	_tween.tween_property(material, \"shader_parameter/y_rot\", 0.0, TWEEN_TIME).set_trans(TWEEN_TRANS).set_ease(Tween.EASE_IN)
+	_tween.parallel().tween_property(material, \"shader_parameter/x_rot\", 0.0, TWEEN_TIME).set_trans(TWEEN_TRANS).set_ease(Tween.EASE_IN)
+	
+	_tween.tween_property(material, \"shader_parameter/y_rot\", DEGREES_Y * -1, TWEEN_TIME).set_trans(TWEEN_TRANS).set_ease(Tween.EASE_OUT)
+	_tween.parallel().tween_property(material, \"shader_parameter/x_rot\", DEGREES_X * -1, TWEEN_TIME).set_trans(TWEEN_TRANS).set_ease(Tween.EASE_OUT)
+	
+	_tween.tween_property(material, \"shader_parameter/y_rot\", 0.0, TWEEN_TIME).set_trans(TWEEN_TRANS).set_ease(Tween.EASE_IN)
+	_tween.parallel().tween_property(material, \"shader_parameter/x_rot\", 0.0, TWEEN_TIME).set_trans(TWEEN_TRANS).set_ease(Tween.EASE_IN)
+
+func _end_animation() -> void:
+	if _tween:
+		_tween.kill()
+	
+	_tween = create_tween()
+	_tween.tween_property(material, \"shader_parameter/inset\", SHADER_INSET, 0.1).set_trans(Tween.TRANS_LINEAR)
+	_tween.parallel().tween_property(material, \"shader_parameter/x_rot\", 0, 0.1).set_trans(Tween.TRANS_LINEAR)
+	_tween.parallel().tween_property(material, \"shader_parameter/y_rot\", 0, 0.1).set_trans(Tween.TRANS_LINEAR)
+
+func _on_mouse_entered() -> void:
+	_is_mouse_inside_button = true
+	_start_animation()
+
+func _on_mouse_exited() -> void:
+	_is_mouse_inside_button = false
+	_end_animation()
+
+func _on_pressed() -> void:
+	print(\"Button pressed\")
+	# TODO: implement
+
+func _on_button_down() -> void:
+	if _tween:
+		_tween.kill()
+	
+	_tween = create_tween()
+	_tween.tween_property(material, \"shader_parameter/inset\", 0.4, 0.1).set_trans(Tween.TRANS_LINEAR)
+	_tween.parallel().tween_property(material, \"shader_parameter/x_rot\", 0, 0.1).set_trans(Tween.TRANS_LINEAR)
+	_tween.parallel().tween_property(material, \"shader_parameter/y_rot\", 0, 0.1).set_trans(Tween.TRANS_LINEAR)
+
+func _on_button_up() -> void:
+	if _is_mouse_inside_button:
+		_start_animation()
+"
+
+[node name="Button" type="TextureButton"]
+z_index = 1
+material = SubResource("ShaderMaterial_r41w3")
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -125.0
+offset_top = -30.0
+offset_right = 125.0
+offset_bottom = 30.0
+grow_horizontal = 2
+grow_vertical = 2
+script = SubResource("GDScript_ttjyv")
