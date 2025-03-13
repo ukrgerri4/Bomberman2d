@@ -28,7 +28,6 @@ func _ready() -> void:
 	mouse_exited.connect(_on_mouse_exited)
 	button_down.connect(_on_button_down)
 	button_up.connect(_on_button_up)
-	pressed.connect(_on_pressed)
 	
 	material.set(\"shader_parameter/inset\", SHADER_INSET)
 
@@ -70,16 +69,10 @@ func _end_animation() -> void:
 	_tween.parallel().tween_property(material, \"shader_parameter/y_rot\", 0, 0.1).set_trans(Tween.TRANS_LINEAR)
 
 func _on_mouse_entered() -> void:
-	_is_mouse_inside_button = true
 	_start_animation()
 
 func _on_mouse_exited() -> void:
-	_is_mouse_inside_button = false
 	_end_animation()
-
-func _on_pressed() -> void:
-	print(\"Button pressed\")
-	# TODO: implement
 
 func _on_button_down() -> void:
 	if _tween:
@@ -91,7 +84,7 @@ func _on_button_down() -> void:
 	_tween.parallel().tween_property(material, \"shader_parameter/y_rot\", 0, 0.1).set_trans(Tween.TRANS_LINEAR)
 
 func _on_button_up() -> void:
-	if _is_mouse_inside_button:
+	if is_hovered():
 		_start_animation()
 "
 

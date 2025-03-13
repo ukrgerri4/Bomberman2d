@@ -21,6 +21,7 @@ ResourceManager="*res://Services/ResourceManager.gd"
 DeviceManager="*res://Services/DeviceManager.gd"
 GameEvents="*res://Services/GameEvents.gd"
 MapSettings="*res://Services/MapSettings.gd"
+SceneManager="*res://Services/SceneManager.gd"
 
 [display]
 
