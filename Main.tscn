@@ -1,15 +1,21 @@
-[gd_scene load_steps=4 format=3 uid="uid://dexuxwatrirsp"]
+[gd_scene load_steps=5 format=3 uid="uid://dexuxwatrirsp"]
 
 [ext_resource type="Script" uid="uid://bkgh1rfeelxwb" path="res://Main.gd" id="1_8jd5a"]
 [ext_resource type="PackedScene" uid="uid://csis4e2qkes00" path="res://Scenes/SplashScreen/SplashScreen.tscn" id="2_fos0i"]
 [ext_resource type="PackedScene" uid="uid://60mo575sjggp" path="res://Scenes/MainScreen/MainScreen.tscn" id="3_3dxm6"]
+[ext_resource type="PackedScene" uid="uid://btxiux2jpqhi5" path="res://Scenes/PauseScreen/PauseScreen.tscn" id="4_cm0pq"]
 
 [node name="Main" type="Node2D"]
+process_mode = 3
 script = ExtResource("1_8jd5a")
 
 [node name="SplashScreen" parent="." instance=ExtResource("2_fos0i")]
 offset_right = 1920.0
 offset_bottom = 1080.0
+
+[node name="PauseScreen" parent="." instance=ExtResource("4_cm0pq")]
+process_mode = 3
+visible = false
 
 [node name="MainScreen" parent="." instance=ExtResource("3_3dxm6")]
 visible = false

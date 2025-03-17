@@ -53,7 +53,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
-[node name="PanelContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -68,17 +68,17 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 25
 
-[node name="StartButton" parent="PanelContainer" instance=ExtResource("2_powyr")]
+[node name="StartButton" parent="VBoxContainer" instance=ExtResource("2_powyr")]
 material = SubResource("ShaderMaterial_thpsn")
 layout_mode = 2
 texture_normal = ExtResource("3_ke8gl")
 
-[node name="SettingsButton" parent="PanelContainer" instance=ExtResource("2_powyr")]
+[node name="SettingsButton" parent="VBoxContainer" instance=ExtResource("2_powyr")]
 material = SubResource("ShaderMaterial_8g0ux")
 layout_mode = 2
 texture_normal = ExtResource("4_ajvpp")
 
-[node name="ExitButton" parent="PanelContainer" instance=ExtResource("2_powyr")]
+[node name="ExitButton" parent="VBoxContainer" instance=ExtResource("2_powyr")]
 material = SubResource("ShaderMaterial_iblp6")
 layout_mode = 2
 texture_normal = ExtResource("5_6wn1e")

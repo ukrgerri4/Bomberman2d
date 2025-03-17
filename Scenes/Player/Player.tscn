@@ -212,4 +212,6 @@ anim_player = NodePath("../AnimationPlayer")
 parameters/conditions/is_dead = false
 parameters/walk/blend_position = Vector2(-0.00189513, 0.986111)
 
+[node name="Timer" type="Timer" parent="."]
+
 [connection signal="animation_finished" from="AnimationTree" to="." method="_on_animation_tree_animation_finished"]

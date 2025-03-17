@@ -2,6 +2,7 @@ extends Node
 
 # UI
 signal player_bomb_count_changed(player: Player)
+signal player_died(playerColor: Constants.PlayerColor)
 
 # Bomb
 signal bomb_hit(node: Node2D)

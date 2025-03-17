@@ -11,6 +11,7 @@ default_font = ExtResource("2_kldst")
 bg_color = Color(0.0627451, 0.345098, 0.188235, 1)
 
 [node name="Game" type="Node2D"]
+process_mode = 1
 script = ExtResource("1_j5yw3")
 
 [node name="ColorRect" type="ColorRect" parent="."]

@@ -3,9 +3,6 @@ extends CharacterBody2D
 
 const DEAD_ANIMATION_NAME: String = "dead"
 
-@onready var animation_tree: AnimationTree = $AnimationTree
-@onready var sprite_2d: Sprite2D = $Sprite2D
-
 var color: Constants.PlayerColor = Constants.PlayerColor.WHITE
 var _deviceId: int = -1
 var _max_speed: int = 400
@@ -19,7 +16,10 @@ var _max_blast_length: int = 5
 var bomb_count: int = 0
 var _blast_length: int = 1
 var _place_bomb_delay: float = 0.0
-var _speed_increase_timer: SceneTreeTimer = null
+
+@onready var animation_tree: AnimationTree = $AnimationTree
+@onready var sprite_2d: Sprite2D = $Sprite2D
+@onready var speed_increase_timer: Timer = $Timer
 
 func initialize(player_color: Constants.PlayerColor, deviceId: int) -> void:
 	color = player_color
@@ -36,6 +36,7 @@ func _ready() -> void:
 	_increase_bomb_count(2)
 	var texture = ResourceManager.get_player_texture(color)
 	sprite_2d.texture = texture
+	speed_increase_timer.timeout.connect(_decrease_speed)
 
 func _process(delta: float) -> void:
 	_handle_bomb_placement(delta)
@@ -55,8 +56,8 @@ func _exit_tree():
 	_disconnect_speed_increase_timer()
 
 func _disconnect_speed_increase_timer() -> void:
-	if _speed_increase_timer and _speed_increase_timer.timeout.is_connected(_decrease_speed):
-		_speed_increase_timer.timeout.disconnect(_decrease_speed)
+	if speed_increase_timer and speed_increase_timer.timeout.is_connected(_decrease_speed):
+		speed_increase_timer.timeout.disconnect(_decrease_speed)
 
 func _physics_process(delta: float) -> void:
 	_handle_movement(delta)
@@ -161,6 +162,7 @@ func _on_animation_tree_animation_finished(anim_name: StringName) -> void:
 	if anim_name == DEAD_ANIMATION_NAME:
 		#print_debug("Player animation ended: ", anim_name)
 		#update_score()
+		GameEvents.player_died.emit(color)
 		queue_free()
 
 func _on_player_hit(body: Node2D) -> void:
@@ -186,6 +188,6 @@ func _on_increase_blast_length_power_up_picked(player: Player) -> void:
 func _on_increase_speed_power_up_picked(player: Player) -> void:
 	if player and player == self:
 		_speed = clampi(_speed + 200, _min_speed, _max_speed)
-		_disconnect_speed_increase_timer()
-		_speed_increase_timer = get_tree().create_timer(_speed_increase_duration)
-		_speed_increase_timer.timeout.connect(_decrease_speed)
+		if !speed_increase_timer.is_stopped():
+			speed_increase_timer.stop()
+		speed_increase_timer.start(_speed_increase_duration)

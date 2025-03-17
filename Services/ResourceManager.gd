@@ -26,6 +26,13 @@ const player_head_textures = {
 	"red": preload("res://Assets/PlayerRedHead.png")
 }
 
+const player_head_died_textures = {
+	"white": preload("res://Assets/PlayerWhiteHeadDied.png"),
+	"black": preload("res://Assets/PlayerBlackHead.png"),
+	"blue": preload("res://Assets/PlayerBlueHead.png"),
+	"red": preload("res://Assets/PlayerRedHead.png")
+}
+
 func get_player_texture(playerColor: Constants.PlayerColor) -> Texture2D:
 	match playerColor:
 		Constants.PlayerColor.WHITE:
@@ -50,6 +57,20 @@ func get_player_head_texture(playerColor: Constants.PlayerColor) -> Texture2D:
 			return player_head_textures["blue"]
 		Constants.PlayerColor.RED:
 			return player_head_textures["red"]
+		_:
+			printerr("Color {0} not found.".format([playerColor]))
+			return null
+
+func get_player_head_died_texture(playerColor: Constants.PlayerColor) -> Texture2D:
+	match playerColor:
+		Constants.PlayerColor.WHITE:
+			return player_head_died_textures["white"]
+		Constants.PlayerColor.BLACK:
+			return player_head_died_textures["black"]
+		Constants.PlayerColor.BLUE:
+			return player_head_died_textures["blue"]
+		Constants.PlayerColor.RED:
+			return player_head_died_textures["red"]
 		_:
 			printerr("Color {0} not found.".format([playerColor]))
 			return null

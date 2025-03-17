@@ -2,9 +2,9 @@ class_name MainScreen
 extends Control
 
 func _ready() -> void:
-	$PanelContainer/StartButton.pressed.connect(_on_start_button_pressed)
+	$VBoxContainer/StartButton.pressed.connect(_on_start_button_pressed)
 	#$PanelContainer/SettingsButton.pressed.connect()
-	$PanelContainer/ExitButton.pressed.connect(_on_exit_button_pressed)
+	$VBoxContainer/ExitButton.pressed.connect(_on_exit_button_pressed)
 
 func _on_exit_button_pressed() -> void:
 	get_tree().quit()

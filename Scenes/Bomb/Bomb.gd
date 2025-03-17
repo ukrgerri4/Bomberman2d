@@ -5,19 +5,6 @@ const EXPLOSION_ANIMATION_NAME: String = "explosion"
 const EXPLOSION_ANIMATION_TIME_BETWEEN_FRAMES: float = 0.25
 const EXPLOSION_ANIMATION_SPEED: float = 1.5
 
-@onready var bomb_animated_sprite: AnimatedSprite2D = $BombAnimatedSrpite2D
-@onready var bomb_area: Area2D = $BombArea2D
-@onready var bomb_collision_shape: CollisionShape2D = $BombCollisionShape2D
-
-@onready var explosion_sprites: Node2D = $ExplosionSprites
-@onready var explosion_area: Area2D
-
-@onready var animation_player: AnimationPlayer
-
-var player_owner: Player
-
-var players_stand_on_bomb: int = 0
-
 var _is_exployded: bool = false
 var _explosion_dict: Dictionary[Vector2, Array] = {
 	Vector2.UP: [],
@@ -25,16 +12,25 @@ var _explosion_dict: Dictionary[Vector2, Array] = {
 	Vector2.LEFT: [],
 	Vector2.RIGHT: []
 }
-var _explosion_timer: SceneTreeTimer = null
 
+var player_owner: Player
+var players_stand_on_bomb: int = 0
 var explosion_delay: float = 3.0
 var explosion_blast_length: int = 1
+
+@onready var bomb_animated_sprite: AnimatedSprite2D = $BombAnimatedSrpite2D
+@onready var bomb_area: Area2D = $BombArea2D
+@onready var bomb_collision_shape: CollisionShape2D = $BombCollisionShape2D
+@onready var explosion_sprites: Node2D = $ExplosionSprites
+@onready var explosion_area: Area2D
+@onready var animation_player: AnimationPlayer
+@onready var _explosion_timer: Timer = $Timer
 
 func _ready() -> void:
 	bomb_collision_shape.disabled = true
 	GameEvents.bomb_hit.connect(_on_bomb_hit)
-	_explosion_timer = get_tree().create_timer(explosion_delay)
 	_explosion_timer.timeout.connect(_on_timeout)
+	_explosion_timer.start(explosion_delay)
 
 func _exit_tree():
 	if GameEvents.bomb_hit.is_connected(_on_bomb_hit):

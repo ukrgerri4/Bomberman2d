@@ -110,17 +110,18 @@ func _on_content_finished_loading(incoming_scene) -> void:
 	var outgoing_scene = _scene_to_unload	# NEW > can't use current_scene anymore
 	
 	# if our outgoing_scene has data to pass, give it to our incoming_scene
-	if outgoing_scene != null:	
+	if outgoing_scene != null:
 		if outgoing_scene.has_method("get_data") and incoming_scene.has_method("receive_data"):
 			incoming_scene.receive_data(outgoing_scene.get_data())
 	
 	# load the incoming into the designated node
 	_load_scene_into.add_child(incoming_scene)
+	# move node to top for catching input events for pause/menu nodes in front of this one
+	_load_scene_into.move_child(incoming_scene, 0)
 		# listen for this if you want to perform tasks on the scene immeidately after adding it to the tree
 	# ex: moveing the HUD back up to the top of the stack
 	scene_added.emit(incoming_scene,_loading_screen)
 	
-
 		# Remove the old scene
 	if _scene_to_unload != null and _scene_to_unload.is_inside_tree() and _scene_to_unload != get_tree().root: 
 		_scene_to_unload.queue_free()

@@ -1,0 +1,100 @@
+[gd_scene load_steps=11 format=3 uid="uid://btxiux2jpqhi5"]
+
+[ext_resource type="PackedScene" uid="uid://cnjiphwhynvqt" path="res://Scenes/RotatedTextureButton/RotatedTextureButton.tscn" id="1_esaoo"]
+[ext_resource type="Shader" uid="uid://cmm66enm6m2up" path="res://Shaders/fake_3d_rotation.gdshader" id="2_l54kj"]
+[ext_resource type="Texture2D" uid="uid://dvxmvo8yjxdp8" path="res://Assets/UI/continue_button.png" id="3_dxtsw"]
+[ext_resource type="Texture2D" uid="uid://c4kk1tnsyc24q" path="res://Assets/UI/restart_button.png" id="4_18v6l"]
+[ext_resource type="Texture2D" uid="uid://dok7pru8gn3qk" path="res://Assets/UI/settings_button.png" id="5_k83mv"]
+[ext_resource type="Texture2D" uid="uid://c8ekmyvmxxgg0" path="res://Assets/UI/exit_button.png" id="6_evfk5"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_64ob6"]
+resource_local_to_scene = true
+shader = ExtResource("2_l54kj")
+shader_parameter/fov = 90.0
+shader_parameter/cull_back = true
+shader_parameter/y_rot = 0.0
+shader_parameter/x_rot = 0.0
+shader_parameter/inset = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_533ob"]
+resource_local_to_scene = true
+shader = ExtResource("2_l54kj")
+shader_parameter/fov = 90.0
+shader_parameter/cull_back = true
+shader_parameter/y_rot = 0.0
+shader_parameter/x_rot = 0.0
+shader_parameter/inset = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_e5xmo"]
+resource_local_to_scene = true
+shader = ExtResource("2_l54kj")
+shader_parameter/fov = 90.0
+shader_parameter/cull_back = true
+shader_parameter/y_rot = 0.0
+shader_parameter/x_rot = 0.0
+shader_parameter/inset = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_eo2d8"]
+resource_local_to_scene = true
+shader = ExtResource("2_l54kj")
+shader_parameter/fov = 90.0
+shader_parameter/cull_back = true
+shader_parameter/y_rot = 0.0
+shader_parameter/x_rot = 0.0
+shader_parameter/inset = 0.0
+
+[node name="PauseScreen" type="Control"]
+z_index = 100
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1920.0
+offset_bottom = 1080.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.74902)
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -125.0
+offset_top = -157.5
+offset_right = 125.0
+offset_bottom = 157.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+layout_mode = 2
+theme_override_constants/separation = 25
+
+[node name="ContinueButton" parent="CenterContainer/VBoxContainer" instance=ExtResource("1_esaoo")]
+material = SubResource("ShaderMaterial_64ob6")
+layout_mode = 2
+texture_normal = ExtResource("3_dxtsw")
+
+[node name="RestartButton" parent="CenterContainer/VBoxContainer" instance=ExtResource("1_esaoo")]
+material = SubResource("ShaderMaterial_533ob")
+layout_mode = 2
+texture_normal = ExtResource("4_18v6l")
+
+[node name="SettingsButton" parent="CenterContainer/VBoxContainer" instance=ExtResource("1_esaoo")]
+material = SubResource("ShaderMaterial_e5xmo")
+layout_mode = 2
+texture_normal = ExtResource("5_k83mv")
+
+[node name="ExitButton" parent="CenterContainer/VBoxContainer" instance=ExtResource("1_esaoo")]
+material = SubResource("ShaderMaterial_eo2d8")
+layout_mode = 2
+texture_normal = ExtResource("6_evfk5")
