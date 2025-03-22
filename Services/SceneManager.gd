@@ -8,7 +8,7 @@ signal _content_finished_loading(content)	## internal - triggered when content i
 signal _content_invalid(content_path:String)	## internal - triggered when attempting to load invalid content (e.g. an asset does not exist or path is incorrect)
 signal _content_failed_to_load(content_path:String)	## internal - triggered when loading has started but failed to complete
 
-var _loading_screen_scene:PackedScene = preload("res://Scenes/LoadingScreen/LoadingScreen.tscn")	## reference to loading screen PackedScene
+var _loading_screen_scene:PackedScene = preload(ResourceManager.loading_screen_scene_path)	## reference to loading screen PackedScene
 var _loading_screen:LoadingScreen	## internal - reference to loading screen instance
 var _transition:String	## internal - transition being used for current load
 var _content_path:String	## internal - stores the path to the asset SceneManager is trying to load
@@ -65,6 +65,7 @@ func _load_content(content_path:String) -> void:
 		_load_progress_timer.queue_free()
 	
 	_load_progress_timer = Timer.new()
+	_load_progress_timer.process_mode = Node.PROCESS_MODE_ALWAYS
 	_load_progress_timer.wait_time = 0.1
 	_load_progress_timer.timeout.connect(_monitor_load_status)
 	
@@ -117,7 +118,7 @@ func _on_content_finished_loading(incoming_scene) -> void:
 	# load the incoming into the designated node
 	_load_scene_into.add_child(incoming_scene)
 	# move node to top for catching input events for pause/menu nodes in front of this one
-	_load_scene_into.move_child(incoming_scene, 0)
+	#_load_scene_into.move_child(incoming_scene, 0)
 		# listen for this if you want to perform tasks on the scene immeidately after adding it to the tree
 	# ex: moveing the HUD back up to the top of the stack
 	scene_added.emit(incoming_scene,_loading_screen)

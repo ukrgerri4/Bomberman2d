@@ -1,5 +1,10 @@
 extends Node
 
+signal exit_game_pressed()
+
+signal game_started()
+signal game_ended()
+
 # UI
 signal player_bomb_count_changed(player: Player)
 signal player_died(playerColor: Constants.PlayerColor)

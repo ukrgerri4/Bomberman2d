@@ -1,5 +1,11 @@
 extends Node
 
+const loading_screen_scene_path := "res://Scenes/LoadingScreen/LoadingScreen.tscn"
+const main_screen_scene_path := "res://Scenes/MainScreen/MainScreen.tscn"
+const pause_screen_scene_path := "res://Scenes/PauseScreen/PauseScreen.tscn"
+const settings_screen_scene_path := "res://Scenes/SettingsPanel/SettingsPanel.tscn"
+const game_scene_path := "res://Scenes/Game.tscn"
+
 const player_scene = preload("res://Scenes/Player/Player.tscn")
 const player_panel_scene = preload("res://Scenes/PlayerPanel/PlayerPanel.tscn")
 const bomb_scene = preload("res://Scenes/Bomb/Bomb.tscn")

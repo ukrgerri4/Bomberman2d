@@ -1,13 +1,21 @@
 extends Node2D
 
 @onready var _splash_screen: SplashScreen = $SplashScreen
-@onready var _main_screen: Control = $MainScreen
-@onready var _pause_screen: Control = $PauseScreen
+
+var _is_game_started := false
 
 func _ready() -> void:
-	_splash_screen.visible = true
-	_main_screen.visible = false
-	_pause_screen.visible = false
+	GameEvents.exit_game_pressed.connect(_on_exit_game_pressed)
+	GameEvents.game_started.connect(_on_game_started)
+	GameEvents.game_ended.connect(_on_game_ended)
+
+func _exit_tree():
+	if GameEvents.exit_game_pressed.is_connected(_on_exit_game_pressed):
+		GameEvents.exit_game_pressed.disconnect(_on_exit_game_pressed)
+	if GameEvents.game_started.is_connected(_on_game_started):
+		GameEvents.game_started.disconnect(_on_game_started)
+	if GameEvents.game_ended.is_connected(_on_game_ended):
+		GameEvents.game_ended.disconnect(_on_game_ended)
 
 func _input(_event: InputEvent) -> void:
 	_handle_exit_input()
@@ -16,23 +24,28 @@ func _input(_event: InputEvent) -> void:
 
 func _handle_exit_input() -> void:
 	if Input.is_action_just_pressed("exit"):
-		get_tree().quit()
+		_on_exit_game_pressed()
 
 func _handle_pause_input() -> void:
-	if Input.is_action_just_pressed("pause"):
-		var paused = !get_tree().paused
-		get_tree().paused = paused
-		_pause_screen.visible = paused
+	if Input.is_action_just_pressed("pause") && _is_game_started:
+		SceneManager.swap_scenes(ResourceManager.pause_screen_scene_path, get_node("/root/Main"), null, "no_transition")
 
 func _handle_window_mode_input() -> void:
 	if Input.is_action_just_pressed("toggle_full_screen"):
 		var mode = DisplayServer.window_get_mode()
-		if mode != DisplayServer.WindowMode.WINDOW_MODE_FULLSCREEN:
+		if mode != DisplayServer.WindowMode.WINDOW_MODE_EXCLUSIVE_FULLSCREEN:
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN)
 		else:
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 
 func _on_splash_screen_animation_finished() -> void:
-	_splash_screen.visible = false
-	_splash_screen.queue_free()
-	_main_screen.visible = true
+	SceneManager.swap_scenes(ResourceManager.main_screen_scene_path, get_node("/root/Main"), _splash_screen, "no_transition")
+
+func _on_exit_game_pressed() -> void:
+	get_tree().quit()
+
+func _on_game_started() -> void:
+	_is_game_started = true
+
+func _on_game_ended() -> void:
+	_is_game_started = false

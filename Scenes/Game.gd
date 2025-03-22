@@ -45,6 +45,8 @@ func _ready() -> void:
 		_add_player_panel(player.color)
 		_add_player(player.color, player.device_id, player.spawn_position)
 		player.is_active = true
+	
+	GameEvents.game_started.emit()
 
 func _add_player(color: Constants.PlayerColor, deviceId: int, spawn_position: Vector2) -> void:
 	var player: Player = ResourceManager.player_scene.instantiate()
