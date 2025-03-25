@@ -1,6 +1,6 @@
 extends Node2D
 
-@onready var _splash_screen: SplashScreen = $SplashScreen
+@onready var splash_screen: SplashScreen = $SplashScreen
 
 var _is_game_started := false
 
@@ -31,7 +31,7 @@ func _handle_window_mode_input() -> void:
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 
 func _on_splash_screen_animation_finished() -> void:
-	SceneManager.swap_scenes(ResourceManager.main_screen_scene_path, get_node("/root/Main"), _splash_screen, "no_transition")
+	SceneManager.swap_scenes(ResourceManager.main_screen_scene_path, get_node("/root/Main"), splash_screen, "no_transition")
 
 func _on_exit_game_pressed() -> void:
 	get_tree().quit()

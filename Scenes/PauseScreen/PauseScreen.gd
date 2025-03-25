@@ -5,6 +5,10 @@ func _ready() -> void:
 	set_anchors_preset(Control.PRESET_FULL_RECT)
 	size = get_viewport().get_visible_rect().size
 	get_tree().paused = true
+	_grab_continue_button_focus.call_deferred()
+
+func _grab_continue_button_focus() -> void:
+	$CenterContainer/VBoxContainer/ContinueButton.grab_focus()
 
 func _on_continue_button_pressed() -> void:
 	get_tree().paused = false

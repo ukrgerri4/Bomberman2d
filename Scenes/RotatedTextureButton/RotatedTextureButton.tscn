@@ -26,6 +26,8 @@ var _is_mouse_inside_button: bool = false
 func _ready() -> void:
 	mouse_entered.connect(_on_mouse_entered)
 	mouse_exited.connect(_on_mouse_exited)
+	focus_entered.connect(_on_mouse_entered)
+	focus_exited.connect(_on_mouse_exited)
 	button_down.connect(_on_button_down)
 	button_up.connect(_on_button_up)
 	
