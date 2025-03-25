@@ -32,12 +32,6 @@ func _ready() -> void:
 	_explosion_timer.timeout.connect(_on_timeout)
 	_explosion_timer.start(explosion_delay)
 
-func _exit_tree():
-	if GameEvents.bomb_hit.is_connected(_on_bomb_hit):
-		GameEvents.bomb_hit.disconnect(_on_bomb_hit)
-	if _explosion_timer and _explosion_timer.timeout.is_connected(_on_timeout):
-		_explosion_timer.timeout.disconnect(_on_timeout)
-
 func _on_timeout() -> void:
 	_expoyded.call_deferred()
 
@@ -81,7 +75,8 @@ func _update_explosion_beam(direction: Vector2) -> void:
 		
 		if collider == null:
 			is_collide = false
-		elif collider.is_in_group("bricks") or collider.is_in_group("power_ups"):
+		#elif collider.is_in_group("bricks") or collider.is_in_group("power_ups"):
+		elif collider.is_in_group("bricks"):
 			is_collide_with_brick = true
 		
 		if not is_collide:
@@ -107,7 +102,8 @@ func _check_collision(point: Vector2) -> Node2D:
 	query.position = point
 	query.collide_with_areas = true
 	query.collide_with_bodies = true
-	query.collision_mask = (1 << 2) | (1 << 3) | (1 << 5) # wall, brick, power_up
+	query.collision_mask = (1 << 2) | (1 << 3) # wall, brick
+	#query.collision_mask = (1 << 2) | (1 << 3) | (1 << 5) # wall, brick, power_up
 	var result = space_state.intersect_point(query, 1)
 	if result.size() == 1:
 		return result[0].collider;

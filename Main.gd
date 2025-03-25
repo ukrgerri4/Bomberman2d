@@ -9,14 +9,6 @@ func _ready() -> void:
 	GameEvents.game_started.connect(_on_game_started)
 	GameEvents.game_ended.connect(_on_game_ended)
 
-func _exit_tree():
-	if GameEvents.exit_game_pressed.is_connected(_on_exit_game_pressed):
-		GameEvents.exit_game_pressed.disconnect(_on_exit_game_pressed)
-	if GameEvents.game_started.is_connected(_on_game_started):
-		GameEvents.game_started.disconnect(_on_game_started)
-	if GameEvents.game_ended.is_connected(_on_game_ended):
-		GameEvents.game_ended.disconnect(_on_game_ended)
-
 func _input(_event: InputEvent) -> void:
 	_handle_exit_input()
 	_handle_pause_input()
@@ -27,7 +19,7 @@ func _handle_exit_input() -> void:
 		_on_exit_game_pressed()
 
 func _handle_pause_input() -> void:
-	if Input.is_action_just_pressed("pause") && _is_game_started:
+	if Input.is_action_just_pressed("pause") && _is_game_started && !get_tree().paused:
 		SceneManager.swap_scenes(ResourceManager.pause_screen_scene_path, get_node("/root/Main"), null, "no_transition")
 
 func _handle_window_mode_input() -> void:

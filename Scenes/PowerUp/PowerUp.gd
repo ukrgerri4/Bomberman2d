@@ -17,15 +17,8 @@ func _ready() -> void:
 		Constants.PowerUpType.SPEED_INCREASE:
 			sprite.texture = ResourceManager.power_up_speed_increase_texture
 
-func _exit_tree():
-	if GameEvents.bomb_hit.is_connected(_on_hit):
-		GameEvents.bomb_hit.disconnect(_on_hit)
-	if GameEvents.brick_destroyed.is_connected(_on_brick_destroyed):
-		GameEvents.brick_destroyed.disconnect(_on_brick_destroyed)
-
 func _burn_power_up():
 	if sprite.material and sprite.material is ShaderMaterial:
-		print("Burning")
 		var tween = create_tween()
 		sprite.material.set_shader_parameter("position", Vector2(randi_range(0, 1), randi_range(0, 1)))
 		tween.tween_method(_update_shader_radius, 0.0, 2.0, 1.0)

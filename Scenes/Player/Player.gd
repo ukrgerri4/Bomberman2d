@@ -42,23 +42,6 @@ func _process(delta: float) -> void:
 	_handle_bomb_placement(delta)
 	_update_animation()
 
-func _exit_tree():
-	if GameEvents.bomb_hit.is_connected(_on_player_hit):
-		GameEvents.bomb_hit.disconnect(_on_player_hit)
-	if GameEvents.bomb_expoyded.is_connected(_on_player_bomb_expoyded):
-		GameEvents.bomb_expoyded.disconnect(_on_player_bomb_expoyded)
-	if GameEvents.extra_bomb_power_up_picked.is_connected(_on_extra_bomb_power_up_picked):
-		GameEvents.extra_bomb_power_up_picked.disconnect(_on_extra_bomb_power_up_picked)
-	if GameEvents.increase_blast_length_power_up_picked.is_connected(_on_increase_blast_length_power_up_picked):
-		GameEvents.increase_blast_length_power_up_picked.disconnect(_on_increase_blast_length_power_up_picked)
-	if GameEvents.increase_speed_power_up_picked.is_connected(_on_increase_speed_power_up_picked):
-		GameEvents.increase_speed_power_up_picked.disconnect(_on_increase_speed_power_up_picked)
-	_disconnect_speed_increase_timer()
-
-func _disconnect_speed_increase_timer() -> void:
-	if speed_increase_timer and speed_increase_timer.timeout.is_connected(_decrease_speed):
-		speed_increase_timer.timeout.disconnect(_decrease_speed)
-
 func _physics_process(delta: float) -> void:
 	_handle_movement(delta)
 
@@ -76,6 +59,9 @@ func _place_bomb() -> void: # TODO: move to some service
 		ceil((global_position.x - MapSettings.OFFSET_LEFT) / MapSettings.BLOCK_SIZE) * MapSettings.BLOCK_SIZE - MapSettings.HALF_BLOCK_SIZE + MapSettings.OFFSET_LEFT,
 		ceil((global_position.y - MapSettings.OFFSET_TOP) / MapSettings.BLOCK_SIZE) * MapSettings.BLOCK_SIZE - MapSettings.HALF_BLOCK_SIZE + MapSettings.OFFSET_TOP,
 	)
+	if _is_bomb_already_placed(spawn_point):
+		return
+	
 	#print_debug("Should palce bomb, position: {0}, {1}".format([global_position, p]))
 	var bomb = ResourceManager.bomb_scene.instantiate()
 	bomb.player_owner = self
@@ -85,6 +71,16 @@ func _place_bomb() -> void: # TODO: move to some service
 	bomb.global_position = spawn_point
 	_place_bomb_delay = 0.0
 	_decrease_bomb_count(1)
+
+func _is_bomb_already_placed(spawn_point: Vector2) -> bool:
+	var space_state = get_world_2d().direct_space_state
+	var query =  PhysicsPointQueryParameters2D.new()
+	query.position = spawn_point
+	query.collide_with_areas = true
+	query.collide_with_bodies = true
+	query.collision_mask = 1 << 1 # bomb
+	var result = space_state.intersect_point(query, 1)
+	return result.size() > 0
 
 func _handle_movement(_delta: float) -> void:
 	var new_direction = _get_current_direction()

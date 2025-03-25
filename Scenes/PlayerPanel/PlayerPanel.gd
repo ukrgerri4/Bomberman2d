@@ -16,12 +16,6 @@ func  _ready() -> void:
 	var texture = ResourceManager.get_player_head_texture(player_color)
 	head_sprite.texture = texture
 
-func _exit_tree() -> void:
-	if GameEvents.player_bomb_count_changed.is_connected(_on_player_bomb_count_changed):
-		GameEvents.player_bomb_count_changed.disconnect(_on_player_bomb_count_changed)
-	if GameEvents.player_died.is_connected(_on_player_died):
-		GameEvents.player_died.disconnect(_on_player_died)
-
 func _on_player_bomb_count_changed(player: Player) -> void:
 	if player and player_color == player.color:
 		bomb_count_label.text = str(player.bomb_count)

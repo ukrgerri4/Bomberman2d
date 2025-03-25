@@ -34,9 +34,9 @@ const player_head_textures = {
 
 const player_head_died_textures = {
 	"white": preload("res://Assets/PlayerWhiteHeadDied.png"),
-	"black": preload("res://Assets/PlayerBlackHead.png"),
-	"blue": preload("res://Assets/PlayerBlueHead.png"),
-	"red": preload("res://Assets/PlayerRedHead.png")
+	"black": preload("res://Assets/PlayerBlackHeadDied.png"),
+	"blue": preload("res://Assets/PlayerBlueHeadDied.png"),
+	"red": preload("res://Assets/PlayerRedHeadDied.png")
 }
 
 func get_player_texture(playerColor: Constants.PlayerColor) -> Texture2D:

@@ -46,7 +46,7 @@ animations = [{
 radius = 30.0
 
 [node name="Bomb" type="CharacterBody2D"]
-z_index = 2
+z_index = 4
 collision_layer = 2
 script = ExtResource("1_epn2f")
 

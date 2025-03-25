@@ -25,7 +25,7 @@ shader_parameter/noiseTexture = SubResource("NoiseTexture2D_rtpde")
 shader_parameter/burnColor = Color(0, 0, 0, 1)
 
 [node name="PowerUp" type="Area2D" groups=["power_ups"]]
-z_index = 1
+z_index = 5
 collision_layer = 32
 collision_mask = 3
 script = ExtResource("1_3hf71")

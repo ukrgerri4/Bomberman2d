@@ -6,7 +6,7 @@
 size = Vector2(64, 64)
 
 [node name="Wall" type="CharacterBody2D" groups=["walls"]]
-z_index = 2
+z_index = 5
 collision_layer = 4
 metadata/_edit_lock_ = true
 
