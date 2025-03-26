@@ -1,6 +1,6 @@
 [gd_scene load_steps=14 format=3 uid="uid://d13yggkw2yru4"]
 
-[ext_resource type="Script" uid="uid://df6hc7uq0ilwp" path="res://Scenes/LoadingScreen/LoadingScreen.gd" id="1_fel74"]
+[ext_resource type="Script" uid="uid://df6hc7uq0ilwp" path="res://Scenes/UI/LoadingScreen/LoadingScreen.gd" id="1_fel74"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_17cna"]
 bg_color = Color(1, 1, 1, 1)

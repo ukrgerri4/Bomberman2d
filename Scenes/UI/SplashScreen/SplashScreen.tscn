@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://csis4e2qkes00"]
 
 [ext_resource type="Texture2D" uid="uid://bfqm2a12o17jm" path="res://Assets/ShipWheel.png" id="1_44c70"]
-[ext_resource type="Script" uid="uid://q5suammt65v" path="res://Scenes/SplashScreen/SplashScreen.gd" id="1_380oo"]
+[ext_resource type="Script" uid="uid://q5suammt65v" path="res://Scenes/UI/SplashScreen/SplashScreen.gd" id="1_380oo"]
 [ext_resource type="Shader" uid="uid://wfmy4yfvpfof" path="res://Shaders/pixelate.gdshader" id="2_qdtb4"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_i2xsf"]

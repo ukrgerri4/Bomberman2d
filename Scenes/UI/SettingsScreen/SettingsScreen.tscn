@@ -1,12 +1,12 @@
 [gd_scene load_steps=4 format=3 uid="uid://ct4fslg4kykeb"]
 
-[ext_resource type="Script" uid="uid://b37nvje26v8jn" path="res://Scenes/SettingsPanel/SettingsPanel.gd" id="1_5glqp"]
-[ext_resource type="Theme" uid="uid://dtbb8r8t2udfi" path="res://Themes/default_theme.tres" id="1_rtiot"]
+[ext_resource type="Theme" uid="uid://dtbb8r8t2udfi" path="res://Themes/default_theme.tres" id="1_1sdoh"]
+[ext_resource type="Script" uid="uid://b37nvje26v8jn" path="res://Scenes/UI/SettingsScreen/SettingsScreen.gd" id="2_aobd1"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_njpj5"]
 bg_color = Color(0.615686, 0.247059, 0.615686, 0.984314)
 
-[node name="SettingsPanel" type="Control"]
+[node name="SettingsScreen" type="Control"]
 process_mode = 3
 z_index = 120
 layout_mode = 3
@@ -15,8 +15,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("1_rtiot")
-script = ExtResource("1_5glqp")
+theme = ExtResource("1_1sdoh")
+script = ExtResource("2_aobd1")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 1

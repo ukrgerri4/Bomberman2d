@@ -1,7 +1,7 @@
 [gd_scene load_steps=12 format=3 uid="uid://btxiux2jpqhi5"]
 
 [ext_resource type="PackedScene" uid="uid://cnjiphwhynvqt" path="res://Scenes/RotatedTextureButton/RotatedTextureButton.tscn" id="1_esaoo"]
-[ext_resource type="Script" uid="uid://c5erc6aaib4cd" path="res://Scenes/PauseScreen/PauseScreen.gd" id="1_l54kj"]
+[ext_resource type="Script" uid="uid://c5erc6aaib4cd" path="res://Scenes/UI/PauseScreen/PauseScreen.gd" id="1_l54kj"]
 [ext_resource type="Shader" uid="uid://cmm66enm6m2up" path="res://Shaders/fake_3d_rotation.gdshader" id="2_l54kj"]
 [ext_resource type="Texture2D" uid="uid://dvxmvo8yjxdp8" path="res://Assets/UI/continue_button.png" id="3_dxtsw"]
 [ext_resource type="Texture2D" uid="uid://c4kk1tnsyc24q" path="res://Assets/UI/restart_button.png" id="4_18v6l"]
@@ -56,6 +56,7 @@ offset_bottom = 1080.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_l54kj")
+metadata/_custom_type_script = "uid://df4y14itsk5im"
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 1

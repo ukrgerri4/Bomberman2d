@@ -1,5 +1,5 @@
 class_name PauseScreen
-extends Control
+extends Screen
 
 func _ready() -> void:
 	set_anchors_preset(Control.PRESET_FULL_RECT)
@@ -16,6 +16,7 @@ func _on_continue_button_pressed() -> void:
 
 func _on_settings_button_pressed() -> void:
 	SceneManager.swap_scenes(ResourceManager.settings_screen_scene_path, get_node("/root/Main"), null, "no_transition")
+	recursive_release_focus()
 
 func _on_exit_button_pressed() -> void:
 	GameEvents.exit_game_pressed.emit()

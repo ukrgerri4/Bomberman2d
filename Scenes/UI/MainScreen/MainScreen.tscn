@@ -1,6 +1,6 @@
 [gd_scene load_steps=10 format=3 uid="uid://60mo575sjggp"]
 
-[ext_resource type="Script" uid="uid://do7km6nuoiqv1" path="res://Scenes/MainScreen/MainScreen.gd" id="1_cnqt4"]
+[ext_resource type="Script" uid="uid://do7km6nuoiqv1" path="res://Scenes/UI/MainScreen/MainScreen.gd" id="1_cnqt4"]
 [ext_resource type="PackedScene" uid="uid://cnjiphwhynvqt" path="res://Scenes/RotatedTextureButton/RotatedTextureButton.tscn" id="2_powyr"]
 [ext_resource type="Shader" uid="uid://cmm66enm6m2up" path="res://Shaders/fake_3d_rotation.gdshader" id="3_6wn1e"]
 [ext_resource type="Texture2D" uid="uid://b8uo0onpaqtqm" path="res://Assets/UI/start_button.png" id="3_ke8gl"]
@@ -35,15 +35,12 @@ shader_parameter/x_rot = 0.0
 shader_parameter/inset = 0.0
 
 [node name="MainScreen" type="Control"]
-process_mode = 3
-z_index = 100
 layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
 script = ExtResource("1_cnqt4")
+metadata/_custom_type_script = "uid://df4y14itsk5im"
 
 [node name="ColorRect" type="ColorRect" parent="."]
 z_index = -1

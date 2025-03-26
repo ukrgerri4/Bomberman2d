@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://dexuxwatrirsp"]
 
 [ext_resource type="Script" uid="uid://bkgh1rfeelxwb" path="res://Main.gd" id="1_8jd5a"]
-[ext_resource type="PackedScene" uid="uid://csis4e2qkes00" path="res://Scenes/SplashScreen/SplashScreen.tscn" id="2_fos0i"]
+[ext_resource type="PackedScene" uid="uid://csis4e2qkes00" path="res://Scenes/UI/SplashScreen/SplashScreen.tscn" id="2_fos0i"]
 
 [node name="Main" type="Node2D"]
 process_mode = 3
