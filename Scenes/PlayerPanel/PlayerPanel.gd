@@ -16,9 +16,9 @@ func  _ready() -> void:
 	var texture = ResourceManager.get_player_head_texture(player_color)
 	head_sprite.texture = texture
 
-func _on_player_bomb_count_changed(player: Player) -> void:
-	if player and player_color == player.color:
-		bomb_count_label.text = str(player.bomb_count)
+func _on_player_bomb_count_changed(playerColor: Constants.PlayerColor, bomb_count: int) -> void:
+	if player_color == playerColor:
+		bomb_count_label.text = str(bomb_count)
 
 func _on_player_died(playerColor: Constants.PlayerColor) -> void:
 	if player_color == playerColor:

@@ -7,10 +7,7 @@ func _ready() -> void:
 	$VBoxContainer/StartButton.pressed.connect(_on_start_button_pressed)
 	$VBoxContainer/SettingsButton.pressed.connect(_on_settings_button_pressed)
 	$VBoxContainer/ExitButton.pressed.connect(_on_exit_button_pressed)
-	_grab_continue_button_focus.call_deferred()
-
-func _grab_continue_button_focus() -> void:
-	$VBoxContainer.grab_focus()
+	$VBoxContainer/StartButton.grab_focus()
 
 func _on_start_button_pressed() -> void:
 	SceneManager.swap_scenes(ResourceManager.game_scene_path, get_node("/root/Main"), self, "no_transition")

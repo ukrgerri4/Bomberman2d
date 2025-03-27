@@ -13,7 +13,7 @@ var _is_dead: bool = false
 var _direction: Vector2 = Vector2.ZERO
 var _max_bomb_count: int = 5
 var _max_blast_length: int = 5
-var bomb_count: int = 0
+var _bomb_count: int = 0
 var _blast_length: int = 1
 var _place_bomb_delay: float = 0.0
 
@@ -48,10 +48,10 @@ func _physics_process(delta: float) -> void:
 func _handle_bomb_placement(delta: float) -> void:
 	_place_bomb_delay += delta
 	if _deviceId == -1:
-		if Input.is_action_pressed("place_bomb") and bomb_count > 0 and _place_bomb_delay > 0.25:
+		if Input.is_action_pressed("place_bomb") and _bomb_count > 0 and _place_bomb_delay > 0.25:
 			_place_bomb()
 	else:
-		if Input.is_joy_button_pressed(_deviceId, JOY_BUTTON_A) and bomb_count > 0 and _place_bomb_delay > 0.25:
+		if Input.is_joy_button_pressed(_deviceId, JOY_BUTTON_A) and _bomb_count > 0 and _place_bomb_delay > 0.25:
 			_place_bomb()
 
 func _place_bomb() -> void: # TODO: move to some service
@@ -144,12 +144,12 @@ func _update_animation() -> void:
 	animation_tree["parameters/walk/blend_position"] = _direction
 
 func _increase_bomb_count(count: int) -> void:
-	bomb_count += count
-	GameEvents.player_bomb_count_changed.emit(self)
+	_bomb_count += count
+	GameEvents.player_bomb_count_changed.emit(color, _bomb_count)
 
 func _decrease_bomb_count(count: int) -> void:
-	bomb_count -= count
-	GameEvents.player_bomb_count_changed.emit(self)
+	_bomb_count -= count
+	GameEvents.player_bomb_count_changed.emit(color, _bomb_count)
 
 func _decrease_speed() -> void:
 	_speed = clampi(_speed - 200, _min_speed, _max_speed)
@@ -168,12 +168,12 @@ func _on_player_hit(body: Node2D) -> void:
 
 func _on_player_bomb_expoyded(player: Player) -> void:
 	if player and player == self:
-		if bomb_count < _max_bomb_count:
+		if _bomb_count < _max_bomb_count:
 			_increase_bomb_count(1)
 
 func _on_extra_bomb_power_up_picked(player: Player) -> void:
 	if player and player == self:
-		if bomb_count < _max_bomb_count:
+		if _bomb_count < _max_bomb_count:
 			_increase_bomb_count(1)
 	
 func _on_increase_blast_length_power_up_picked(player: Player) -> void:

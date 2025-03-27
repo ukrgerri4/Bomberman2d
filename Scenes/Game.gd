@@ -48,6 +48,9 @@ func _ready() -> void:
 	
 	GameEvents.game_started.emit()
 
+func _exit_tree() -> void:
+	GameEvents.game_ended.emit()
+
 func _add_player(color: Constants.PlayerColor, deviceId: int, spawn_position: Vector2) -> void:
 	var player: Player = ResourceManager.player_scene.instantiate()
 	player.initialize(color, deviceId)

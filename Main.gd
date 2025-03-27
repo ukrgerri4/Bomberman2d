@@ -16,11 +16,15 @@ func _input(_event: InputEvent) -> void:
 
 func _handle_exit_input() -> void:
 	if Input.is_action_just_pressed("exit"):
-		_on_exit_game_pressed()
+		if _is_game_started:
+			if !get_tree().paused:
+				_show_pause_screen()
+		else:
+			_on_exit_game_pressed()
 
 func _handle_pause_input() -> void:
 	if Input.is_action_just_pressed("pause") && _is_game_started && !get_tree().paused:
-		SceneManager.swap_scenes(ResourceManager.pause_screen_scene_path, get_node("/root/Main"), null, "no_transition")
+		_show_pause_screen()
 
 func _handle_window_mode_input() -> void:
 	if Input.is_action_just_pressed("toggle_full_screen"):
@@ -29,6 +33,9 @@ func _handle_window_mode_input() -> void:
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN)
 		else:
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+
+func _show_pause_screen() -> void:
+	SceneManager.swap_scenes(ResourceManager.pause_screen_scene_path, get_node("/root/Main"), null, "no_transition")
 
 func _on_splash_screen_animation_finished() -> void:
 	SceneManager.swap_scenes(ResourceManager.main_screen_scene_path, get_node("/root/Main"), splash_screen, "no_transition")

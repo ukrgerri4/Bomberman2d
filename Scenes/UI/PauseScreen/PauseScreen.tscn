@@ -84,25 +84,25 @@ layout_mode = 2
 theme_override_constants/separation = 25
 
 [node name="ContinueButton" parent="CenterContainer/VBoxContainer" instance=ExtResource("1_esaoo")]
+unique_name_in_owner = true
 material = SubResource("ShaderMaterial_64ob6")
 layout_mode = 2
 texture_normal = ExtResource("3_dxtsw")
 
 [node name="RestartButton" parent="CenterContainer/VBoxContainer" instance=ExtResource("1_esaoo")]
+unique_name_in_owner = true
 material = SubResource("ShaderMaterial_533ob")
 layout_mode = 2
 texture_normal = ExtResource("4_18v6l")
 
 [node name="SettingsButton" parent="CenterContainer/VBoxContainer" instance=ExtResource("1_esaoo")]
+unique_name_in_owner = true
 material = SubResource("ShaderMaterial_e5xmo")
 layout_mode = 2
 texture_normal = ExtResource("5_k83mv")
 
 [node name="ExitButton" parent="CenterContainer/VBoxContainer" instance=ExtResource("1_esaoo")]
+unique_name_in_owner = true
 material = SubResource("ShaderMaterial_eo2d8")
 layout_mode = 2
 texture_normal = ExtResource("6_evfk5")
-
-[connection signal="pressed" from="CenterContainer/VBoxContainer/ContinueButton" to="." method="_on_continue_button_pressed"]
-[connection signal="pressed" from="CenterContainer/VBoxContainer/SettingsButton" to="." method="_on_settings_button_pressed"]
-[connection signal="pressed" from="CenterContainer/VBoxContainer/ExitButton" to="." method="_on_exit_button_pressed"]
