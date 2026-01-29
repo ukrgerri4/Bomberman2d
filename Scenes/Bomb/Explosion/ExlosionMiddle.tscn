@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://dmyshq4vxv1ij"]
+
+[ext_resource type="Texture2D" uid="uid://dgo8ksjnthlcs" path="res://Assets/ExplosionMiddle.png" id="1_g3rt2"]
+
+[node name="ExlosionMiddle" type="Sprite2D"]
+texture = ExtResource("1_g3rt2")
+hframes = 8

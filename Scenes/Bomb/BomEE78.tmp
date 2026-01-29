@@ -1,0 +1,117 @@
+[gd_scene load_steps=14 format=3 uid="uid://bo1locj15wnws"]
+
+[ext_resource type="Texture2D" uid="uid://bv3e665r4secr" path="res://Assets/Bomb.png" id="1_6g6a3"]
+[ext_resource type="Script" path="res://Scenes/Bomb/Bomb.gd" id="1_epn2f"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_kb0cu"]
+radius = 7.5
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hveve"]
+atlas = ExtResource("1_6g6a3")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_63tww"]
+atlas = ExtResource("1_6g6a3")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jjnop"]
+atlas = ExtResource("1_6g6a3")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8jumt"]
+atlas = ExtResource("1_6g6a3")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ykpal"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hveve")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_63tww")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jjnop")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8jumt")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 4.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_74mvq"]
+radius = 7.5
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ef7i6"]
+radius = 5.0
+height = 38.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_86f8h"]
+radius = 5.0
+height = 38.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_bmlek"]
+radius = 5.0
+height = 38.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_mc6f6"]
+radius = 5.0
+height = 38.0
+
+[node name="Bomb" type="CharacterBody2D"]
+z_index = 2
+scale = Vector2(4, 4)
+collision_layer = 2
+script = ExtResource("1_epn2f")
+
+[node name="BombCollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_kb0cu")
+disabled = true
+
+[node name="BombAnimatedSrpite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_ykpal")
+animation = &"idle"
+autoplay = "idle"
+frame_progress = 0.136473
+
+[node name="BombArea2D" type="Area2D" parent="."]
+visible = false
+collision_layer = 2
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BombArea2D"]
+shape = SubResource("CircleShape2D_74mvq")
+
+[node name="ExplosionSprites" type="Node2D" parent="."]
+visible = false
+
+[node name="ExplosionArea2D" type="Area2D" parent="."]
+visible = false
+collision_layer = 16
+collision_mask = 11
+monitoring = false
+monitorable = false
+
+[node name="BottomCollisionShape" type="CollisionShape2D" parent="ExplosionArea2D"]
+position = Vector2(0, 20)
+shape = SubResource("CapsuleShape2D_ef7i6")
+
+[node name="TopCollisionShape" type="CollisionShape2D" parent="ExplosionArea2D"]
+position = Vector2(0, -20)
+shape = SubResource("CapsuleShape2D_86f8h")
+
+[node name="LeftCollisionShape" type="CollisionShape2D" parent="ExplosionArea2D"]
+position = Vector2(-20, 0)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_bmlek")
+
+[node name="RightCollisionShape" type="CollisionShape2D" parent="ExplosionArea2D"]
+position = Vector2(20, 0)
+rotation = -1.5708
+shape = SubResource("CapsuleShape2D_mc6f6")
+
+[connection signal="body_exited" from="BombArea2D" to="." method="_on_bomb_area_2d_body_exited"]
+[connection signal="body_entered" from="ExplosionArea2D" to="." method="_on_explosion_area_2d_body_entered"]

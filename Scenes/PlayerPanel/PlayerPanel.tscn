@@ -1,0 +1,38 @@
+[gd_scene load_steps=5 format=3 uid="uid://dmpw38bt3pkud"]
+
+[ext_resource type="Theme" uid="uid://dtbb8r8t2udfi" path="res://Themes/default_theme.tres" id="1_awjiy"]
+[ext_resource type="Texture2D" uid="uid://4n04h7jvdko5" path="res://Assets/PlayerWhiteHead.png" id="1_i637c"]
+[ext_resource type="Script" uid="uid://bnxaq08if4bo" path="res://Scenes/PlayerPanel/PlayerPanel.gd" id="2_awjiy"]
+[ext_resource type="Texture2D" uid="uid://14s6kiudm0cc" path="res://Assets/BombIcon.png" id="2_dlvqa"]
+
+[node name="Panel" type="Panel"]
+custom_minimum_size = Vector2(160, 80)
+offset_right = 160.0
+offset_bottom = 80.0
+theme = ExtResource("1_awjiy")
+script = ExtResource("2_awjiy")
+
+[node name="PlayerHead" type="Sprite2D" parent="."]
+position = Vector2(40, 40)
+texture = ExtResource("1_i637c")
+
+[node name="BombIcon" type="Sprite2D" parent="."]
+position = Vector2(94, 27)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_dlvqa")
+
+[node name="SeparatorLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 113.0
+offset_top = 19.0
+offset_right = 129.0
+offset_bottom = 35.0
+text = "x"
+
+[node name="BombCountLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 134.0
+offset_top = 19.0
+offset_right = 150.0
+offset_bottom = 35.0
+text = "0"

@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bkf4xjhp7iqgd"]
+
+[ext_resource type="Texture2D" uid="uid://c2uoc635d7gq" path="res://Assets/GroundShadow.png" id="1_rtcfl"]
+
+[node name="GroundShadow" type="Sprite2D"]
+texture = ExtResource("1_rtcfl")

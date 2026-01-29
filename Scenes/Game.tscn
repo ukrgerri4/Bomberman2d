@@ -1,0 +1,45 @@
+[gd_scene load_steps=6 format=3 uid="uid://mqjm2p6waxg6"]
+
+[ext_resource type="Script" uid="uid://diy2m1haxlvh8" path="res://Scenes/Game.gd" id="1_j5yw3"]
+[ext_resource type="FontFile" uid="uid://j5ki7s4bcxir" path="res://Assets/Fonts/PressStart2P-Regular.ttf" id="2_kldst"]
+[ext_resource type="PackedScene" uid="uid://cbtsxbfbmi3ft" path="res://Scenes/Map/Map.tscn" id="3_b2bpf"]
+
+[sub_resource type="Theme" id="Theme_wkp8b"]
+default_font = ExtResource("2_kldst")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r0du0"]
+bg_color = Color(0.0627451, 0.345098, 0.188235, 1)
+
+[node name="Game" type="Node2D"]
+process_mode = 1
+script = ExtResource("1_j5yw3")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+z_index = -1
+offset_right = 1920.0
+offset_bottom = 1080.0
+color = Color(0, 0, 0, 1)
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+offset_left = 416.0
+offset_right = 1504.0
+offset_bottom = 120.0
+theme = SubResource("Theme_wkp8b")
+theme_override_styles/panel = SubResource("StyleBoxFlat_r0du0")
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 30
+
+[node name="PlayerContainer" type="Node2D" parent="."]
+
+[node name="BombContainer" type="Node2D" parent="."]
+
+[node name="Map" parent="." instance=ExtResource("3_b2bpf")]

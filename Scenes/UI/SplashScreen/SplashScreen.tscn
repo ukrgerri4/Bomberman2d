@@ -1,0 +1,115 @@
+[gd_scene load_steps=8 format=3 uid="uid://csis4e2qkes00"]
+
+[ext_resource type="Texture2D" uid="uid://bfqm2a12o17jm" path="res://Assets/ShipWheel.png" id="1_44c70"]
+[ext_resource type="Script" uid="uid://q5suammt65v" path="res://Scenes/UI/SplashScreen/SplashScreen.gd" id="1_380oo"]
+[ext_resource type="Shader" uid="uid://wfmy4yfvpfof" path="res://Shaders/pixelate.gdshader" id="2_qdtb4"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_i2xsf"]
+shader = ExtResource("2_qdtb4")
+shader_parameter/pixelSize = 6
+
+[sub_resource type="Animation" id="Animation_qdtb4"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Foreground:color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_380oo"]
+resource_name = "default"
+length = 2.0
+step = 0.125
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(3.605, 6),
+"update": 0,
+"values": [0.0, 3.14159]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Foreground:color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(3.5, 6),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_i2xsf"]
+_data = {
+&"RESET": SubResource("Animation_qdtb4"),
+&"default": SubResource("Animation_380oo")
+}
+
+[node name="SplashScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_380oo")
+
+[node name="Background" type="ColorRect" parent="."]
+z_index = -1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.233925, 0.233925, 0.233925, 1)
+
+[node name="Foreground" type="ColorRect" parent="."]
+z_index = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+self_modulate = Color(0.366461, 0.626566, 0.817678, 1)
+z_index = 1
+material = SubResource("ShaderMaterial_i2xsf")
+position = Vector2(960.008, 540)
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("1_44c70")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_i2xsf")
+}
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

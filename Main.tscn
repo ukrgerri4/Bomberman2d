@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://dexuxwatrirsp"]
+
+[ext_resource type="Script" uid="uid://bkgh1rfeelxwb" path="res://Main.gd" id="1_8jd5a"]
+[ext_resource type="PackedScene" uid="uid://csis4e2qkes00" path="res://Scenes/UI/SplashScreen/SplashScreen.tscn" id="2_fos0i"]
+
+[node name="Main" type="Node2D"]
+process_mode = 3
+script = ExtResource("1_8jd5a")
+
+[node name="SplashScreen" parent="." instance=ExtResource("2_fos0i")]
+process_mode = 3
+offset_right = 1920.0
+offset_bottom = 1080.0
+
+[connection signal="animation_finished" from="SplashScreen" to="." method="_on_splash_screen_animation_finished"]
